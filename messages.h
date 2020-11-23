@@ -1,20 +1,24 @@
 #ifndef messages_h_
 #define messages_h_
 
-typedef struct Message * message;
 
-typedef struct MessageStack * message_stack;
+typedef struct Message {
+    char* message;
+    char* from;
+    char* to;
+} Message;
 
-// Creates and returns a pointer to a new empty dynamic message stack
-message_stack *create(void);
+
+typedef struct MessageNode {
+    Message *message;
+    MessageNode *top;
+} MessageNode;
+
 
 // Adds messages to the stack
-void push(message_stack *p, message *m);
+void push(MessageNode *p, Message *m);
 
-// Removes and returns the last message added to the stack
-message pop(message_stack *p);
-
-// Frees the memory occupied by the message stack
-void free_menssage_stack(message_stack *p);
+// returns the message added to the stack
+Message get(MessageNode *p);
 
 #endif
