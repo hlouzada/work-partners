@@ -6,7 +6,7 @@
 
 typedef struct FriendNode {
     User *user;
-    FriendNode *next;
+    struct FriendNode *next;
 } FriendNode;
 
 

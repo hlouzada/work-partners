@@ -11,7 +11,7 @@ typedef struct Message {
 
 typedef struct MessageNode {
     Message *message;
-    MessageNode *top;
+    struct MessageNode *top;
 } MessageNode;
 
 

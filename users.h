@@ -7,13 +7,13 @@
 typedef struct User {
     char* name;
     char* nick;
-    MessageNode* first_message;
+    MessageNode *first_message;
 } User;
 
 
 typedef struct UserNode {
     User *user;
-    UserNode *next;
+    struct UserNode *next;
 } UserNode;
 
 
