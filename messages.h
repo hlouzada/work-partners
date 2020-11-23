@@ -16,9 +16,9 @@ typedef struct MessageNode {
 
 
 // Adds messages to the stack
-void push(MessageNode *p, Message *m);
+void push_message(MessageNode *p, Message *m);
 
 // returns the message added to the stack
-Message get(MessageNode *p);
+Message get_message(MessageNode *p);
 
 #endif

@@ -19,7 +19,7 @@ typedef struct UserNode {
 
 User new_user(char* name, char* nick);
 
-void push(UserNode *p, User *u);
+void push_user(UserNode *p, User *u);
 
 
 #endif
