@@ -2,12 +2,13 @@
 #define users_h_
 
 #include "messages.h"
-
+#include "friends.h"
 
 typedef struct User {
     char* name;
     char* nick;
-    MessageNode *first_message;
+    FriendNode **friend_node;
+    MessageNode **message_node;
 } User;
 
 
@@ -17,9 +18,12 @@ typedef struct UserNode {
 } UserNode;
 
 
-User new_user(char* name, char* nick);
+User * new_user(char* name, char* nick);
 
-void push_user(UserNode *p, User *u);
+UserNode * new_user_list(User *u);
 
+void push_user(UserNode **head, User *u);
+
+User * get_user_nick(char* nick);
 
 #endif

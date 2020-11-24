@@ -1,17 +1,18 @@
 #ifndef messages_h_
 #define messages_h_
 
+typedef struct User User;
 
 typedef struct Message {
     char* message;
-    char* from;
-    char* to;
+    User *from;
+    User *to;
 } Message;
 
 
 typedef struct MessageNode {
     Message *message;
-    struct MessageNode *top;
+    struct MessageNode *next;
 } MessageNode;
 
 
