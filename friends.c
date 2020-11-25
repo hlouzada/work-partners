@@ -3,27 +3,32 @@
 #include "friends.h"
 #include "users.h"
 
-FriendNode * new_friend_node(User *from, User *to) {
-    FriendNode *friendnode = NULL;
-    friendnode = (FriendNode *) malloc(sizeof(FriendNode));
-    friendnode -> from = from;
-    friendnode -> to = to;
-    friendnode -> isfriend = false;   
-    friendnode -> next = NULL;
-    return friendnode;
+Friend * new_friend(User *from, User *to) {
+    Friend *newfriend = NULL;
+    newfriend = (Friend *) malloc(sizeof(Friend));
+    newfriend -> from = from;
+    newfriend -> to = to;
+    newfriend -> isfriend = false;
+
+    return newfriend;
 }
 
-FriendNode * send_friend_request(User *from, User *to) {
-    FriendNode *friendnode = new_friend_node(from, to);
+void send_friend_request(User *from, User *to) {
+    Friend *newfriend = new_friend(from, to);
     
-    
-    friendnode -> next = *(from -> friend_node);
+    FriendNode *new_friendnode_from = NULL;
+    new_friendnode_from = (FriendNode *) malloc(sizeof(FriendNode));
+    new_friendnode_from -> friends = newfriend;
+    new_friendnode_from -> next = *(from -> friend_node);
+    *(from -> friend_node) = new_friendnode_from;
 
-
-    to -> friend_node = friendnode;
-
+    FriendNode *new_friendnode_to = NULL;
+    new_friendnode_to = (FriendNode *) malloc(sizeof(FriendNode));
+    new_friendnode_to -> friends = newfriend;
+    new_friendnode_to -> next = *(to -> friend_node);
+    *(to -> friend_node) = new_friendnode_to;
 }
 
 void add_friend(FriendNode *friendnode) {
-    friendnode -> isfriend = true;
+    friendnode -> friends -> isfriend = true;
 }

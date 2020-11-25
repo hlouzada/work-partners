@@ -5,16 +5,20 @@
 
 typedef struct User User;
 
-typedef struct FriendNode {
+typedef struct Friend {
     User *from;
     User *to;
     bool isfriend;
+} Friend;
+
+typedef struct FriendNode {
+    Friend *friends;
     struct FriendNode *next;
 } FriendNode;
 
 
 void add_friend(FriendNode *friendnode);
 
-FriendNode * send_friend_request(User *from, User *to);
+void send_friend_request(User *from, User *to);
 
 #endif
