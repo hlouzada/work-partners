@@ -1,10 +1,6 @@
-typedef struct {
-    int top;
-    char* message;
-} Messages;
+#include "users.h"
 
-typedef struct {
-    char* name;
-    char* nick;
 
-} User;
+int main(int argc, char *argv[]) {
+    
+}
