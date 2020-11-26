@@ -6,7 +6,7 @@ typedef struct User User;
 typedef struct Message
 {
     char* message;
-    Message *next;
+    struct Message *next;
 } Message;
 
 
