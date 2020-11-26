@@ -7,8 +7,8 @@ typedef struct User User;
 typedef struct Message
 {
         char* text; // Texto da mensagem
-        char* to; // Apelido de quem enviou
-        char* from; // Apelido de quem vai receber
+        User *to; // Apelido de quem enviou
+        User *from; // Apelido de quem vai receber
         struct Message *next;
 } Message;
 
@@ -18,7 +18,7 @@ typedef struct MessageStack {
 } MessageStack;
 
 // Cria uma nova mensagem
-Message * new_message(char* from, char* to, char* text);
+Message * new_message(User *from, User *to, char* text);
 
 // Adiciona uma nova mensagem no topo da pilha
 void push_message(MessageStack *stack, Message *message);

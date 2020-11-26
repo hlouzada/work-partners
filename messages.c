@@ -2,9 +2,10 @@
 #include <stdio.h>
 
 #include "messages.h"
+#include "users.h"
 
 // Cria uma nova mensagem
-Message * new_message(char* from, char* to, char* text){
+Message * new_message(User *from, User *to, char* text){
 
         // Aloca espaço na memória para a nova mensagem
         Message *message = malloc(sizeof(Message));
@@ -56,7 +57,7 @@ void get_messages(MessageStack *stack){
   Message *temp = stack->start;
   // Enquanto não chegar no fim da fila
   while (temp != NULL){
-    printf("(%s) %s", temp->from, temp->text);
+    printf("(%s) %s", (temp->from)->nick, temp->text);
     temp = temp->next;
   }
 }
