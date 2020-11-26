@@ -7,22 +7,23 @@
 typedef struct User {
     char* name;
     char* nick;
-    FriendNode **friend_node;
-    MessageNode **message_node;
+    FriendList *friend_list;
+    MessageStack *message_stack;
+
+    struct User *next;
 } User;
 
 
-typedef struct UserNode {
-    User *user;
-    struct UserNode *next;
-} UserNode;
+typedef struct UserList {
+    User *start;
+} UserList;
 
 
 User * new_user(char* name, char* nick);
 
-UserNode * new_user_list(User *u);
+UserList * new_user_list(User *u);
 
-void push_user(UserNode **head, User *u);
+void push_user(UserList **head, User *u);
 
 User * get_user_nick(char* nick);
 

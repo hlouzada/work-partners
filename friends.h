@@ -5,20 +5,31 @@
 
 typedef struct User User;
 
-typedef struct Friend {
+typedef struct FriendRequest {
     User *from;
     User *to;
     bool isfriend;
+} FriendRequest;
+
+
+typedef struct Friend
+{
+    FriendRequest *friend_request;
+    struct Friend *next;
 } Friend;
 
-typedef struct FriendNode {
-    Friend *friends;
-    struct FriendNode *next;
-} FriendNode;
 
+typedef struct FriendList {
+    Friend *start;
+    Friend *end;
+} FriendList;
 
-void add_friend(FriendNode *friendnode);
+void add_friend_request(User *from, User *to);
 
-void send_friend_request(User *from, User *to);
+void free_friend_node(FriendList *friendnode);
+
+void add_friend(Friend *friendnode);
+
+bool is_friend(Friend *friendnode);
 
 #endif

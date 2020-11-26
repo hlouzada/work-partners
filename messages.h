@@ -3,23 +3,23 @@
 
 typedef struct User User;
 
-typedef struct Message {
+typedef struct Message
+{
     char* message;
-    User *from;
-    User *to;
+    Message *next;
 } Message;
 
 
-typedef struct MessageNode {
-    Message *message;
-    struct MessageNode *next;
-} MessageNode;
+typedef struct MessageStack {
+    Message *start;
+} MessageStack;
+
 
 
 // Adds messages to the stack
-void push_message(MessageNode *p, Message *m);
+void push_message(MessageStack *p, Message *m);
 
 // returns the message added to the stack
-Message get_message(MessageNode *p);
+Message get_message(MessageStack *p);
 
 #endif
