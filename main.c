@@ -1,7 +1,17 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "users.h"
+#include "friends.h"
+#include "messages.h"
+
+
+
 
 
 int main(int argc, char *argv[]) {
+
+    UserList *users = NULL;
 
     // Interface de usuário
     // Lista-se as possíveis atividades e recebe ordem do usuário.
@@ -32,17 +42,26 @@ int main(int argc, char *argv[]) {
         }
 
         if(ordem == 1){ //Cadastrar usuário
-            char nick;
-            string nome;
+            char* nick;
+            char* nome;
             printf("Diga seu nome! >:DD \n");
             scanf("%s", nome);
 
             printf("Como gostaria de ser chamado? >:? \n");
-            scanf("%c", nick); //funcao pra ler
+            scanf("%s", nick); //funcao pra ler
 
-            get_user(nick);
 
-            new_user(nome, nick);
+            if (!users){
+              user = new_user(nome, nick);
+              users = new_user_list(user);
+            } else {
+              while( get_user(users, nick ) == NULL){
+                printf("Esse apelido já está sendo usado, escolha outro apelido:\n");
+                scanf("%s", nick);
+              }
+              user = new_user(nome, nick);
+              users = push_user(users, user);
+            }
 
             printf("Seja bem-vindo, %c >:DD esse sera o nome que deve usar nos comandos. \n", nick);
         }
