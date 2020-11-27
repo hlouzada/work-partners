@@ -7,49 +7,56 @@
 // Cria uma nova mensagem
 Message * new_message(User *from, User *to, char* text){
 
-        // Aloca espaço na memória para a nova mensagem
-        Message *message = malloc(sizeof(Message));
-        // Verifica se a alocação funcionou
-        if (!message) {
-                exit(1);
-        }
-        else{
-                message->text = text;
-                message->to = to;
-                message->from = from;
+    // Aloca espaço na memória para a nova mensagem
+    Message *message = malloc(sizeof(Message));
+    // Verifica se a alocação funcionou
+    if (!message) {
+        exit(1);
+    } else {
+        message->text = text;
+        message->to = to;
+        message->from = from;
 
-                message->next = NULL;
+        message->next = NULL;
 
-                return message;
-        }
+        return message;
+    }
 }
 
 // Cria nova lista de mensagens
 MessageStack * new_message_stack(Message *start){
-        // Aloca espaço na memória para a nova lista
-        MessageStack *stack = malloc(sizeof(MessageStack));
-        // Verifica se a alocação funcionou:
-        if(!stack) {
-          exit(1);
-        }
-        else{
-                stack->start = start;
-                return stack;
-        }
+    // Aloca espaço na memória para a nova lista
+    MessageStack *stack = malloc(sizeof(MessageStack));
+    // Verifica se a alocação funcionou:
+    if(!stack) {
+      exit(1);
+    } else {
+        stack->start = start;
+        return stack;
+    }
 }
 
 // Adiciona uma nova mensagem à lista
-void push_message(MessageStack *stack, Message *message){
-  // Checar se a pilha existe:
-  if (stack == NULL){
-    // Se não existe criar nova pilha
-    stack = new_message_stack(message);
-  }
-  else{
-    message->next = stack->start;
-    stack->start = message;
-  }
+MessageStack * push_message(MessageStack *stack, Message *message){
+    // Checar se a pilha existe:
+    if (stack == NULL) {
+        // Se não existe criar nova pilha
+        stack = new_message_stack(message);
+    } else{
+        message->next = stack->start;
+        stack->start = message;
+    }
+
+    return stack;
 }
+
+
+void send_message(User *from, User *to, char* text) {
+    Message *newmessage = new_message(from, to, text);
+
+    to -> message_stack = push_message(to -> message_stack, newmessage);
+}
+
 
 // Retorna e imprime as mensagens da pilha
 void get_messages(MessageStack *stack){
