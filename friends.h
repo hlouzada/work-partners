@@ -28,7 +28,7 @@ void add_friend_request(User *from, User *to);
 
 void free_friend_node(FriendList *friendnode);
 
-void add_friend(Friend *friendnode);
+void accept_friend(Friend *friendnode);
 
 void decline_friend(Friend *friendnode);
 
