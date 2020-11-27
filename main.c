@@ -3,26 +3,35 @@
 
 int main(int argc, char *argv[]) {
 
+    // Interface de usuário
+    // Lista-se as possíveis atividades e recebe ordem do usuário.
     int ordem;
 
     while(ordem != 1337){
-        printf("Olah! >:DD voce pode realizar as seguintes acoes:");
-        printf("1- Cadastrar usuario. \n");
-        printf("2- Listar usuarios. \n");
+        printf("Olah! >:DD voce pode realizar as seguintes ações:");
+        printf("1- Cadastrar usuário. \n");
+        printf("2- Listar usuários. \n");
         printf("3- Enviar pedido de amigo. \n");
         printf("4- Avaliar pedidos de amigo. \n");
         printf("5- Enviar mensagem para um amigo. \n");
         printf("6- Visualizar suas mensagens. \n");
         printf("7- Sugerir amizades! \n");
         printf("8- Encerrar uma amizade. \n");
+        printf("9- Reinicializar sistema. \n");
 
-        printf("1337- Encerra a sessao. \n \n");
+        printf("1337- Encerra a sessão. \n \n");
         printf("O que quer fazer? >:? \n");
 
         scanf("%d", ordem);
         printf("\n");
+        // checar se o usuário colocou um valor válido
+        if ((ordem > 9) || (ordem < 1)){
+          if ((ordem!= 1337) || (ordem%1 != 0)){
+            printf("Favor inserir um valor válido.\n")
+          }
+        }
 
-        if(ordem == 1){ //Cadastrar usuario
+        if(ordem == 1){ //Cadastrar usuário
             char nick;
             string nome;
             printf("Diga seu nome! >:DD \n");
