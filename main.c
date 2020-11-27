@@ -30,15 +30,15 @@ int main(int argc, char *argv[]) {
         int ordem;
 
         while(ordem != 1337) {
-                printf("Olá! >:DD voce pode realizar as seguintes ações:");
+                printf("Olá! >:DD você pode realizar as seguintes ações:");
                 printf("1- Cadastrar usuário. \n");
                 printf("2- Listar usuários. \n");
-                printf("3- Enviar pedido de amizade. \n");
-                printf("4- Avaliar pedidos de amizade. \n");
-                printf("5- Enviar mensagem para um amigo. \n");
+                printf("3- Enviar pedido de parceria. \n");
+                printf("4- Avaliar pedidos de parceria. \n");
+                printf("5- Enviar mensagem para um parceiro. \n");
                 printf("6- Visualizar suas mensagens. \n");
-                printf("7- Sugerir amizades! \n");
-                printf("8- Encerrar uma amizade. \n");
+                printf("7- Sugerir parcerias! \n");
+                printf("8- Encerrar uma parceria. \n");
                 printf("9- Reinicializar sistema. \n");
 
                 printf("1337- Encerra a sessão. \n \n");
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
                                 users = push_user(users, user);
                         }
 
-                        printf("Seja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
+                        printf("Seja bem-vindo, %s >:DD esse será o nome que deve usar nos comandos. \n", nick);
                 }
 
                 else if(ordem == 2) { //lista usuarios
@@ -122,23 +122,36 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 4) { //avaliar pedido amigo
-                        char resposta;
-                        printf("Esses sao seus pedidos de Parceiro: \n");
-                        (); //funcao que lista os pedidos de amigo
+                        char* nick; // precisamos declarar tantas vezes a mesma variável?
+                        printf("Entre com o seu apelido: \n");
+                        scanf("%s", nick);
+                        //funcao que checa e salva o nome se ja foi cadastrado
+                        User *user = get_user(users, nick);
+                        if (user == NULL) {
+                                printf("Esse usuário não existe.");
+                        } else {
 
-                        printf("Avalie o pedido mais antigo! >:DD \n Digite A para Aceitar, N para Negar ou D pra Deixar pra mais tarde");
-                        scanf("%c", resposta);
+                                char resposta;
+                                printf("Esses são seus pedidos de Parceiro: \n");
+                                printf("Digite A para Aceitar, N para Negar ou D pra Deixar pra mais tarde. \n");
 
-                        if(resposta == "A") { //aceita o pedido
-
-                        }
-
-                        else if(resposta == "N") { //nega o pedido
-
-                        }
-
-                        else{
-
+                                // Função que lista os pedidos de amigo
+                                Friend *temp_friend = user->friend_list->start;
+                                while(temp_friend != NULL){
+                                  // Se eles já não forem amigos
+                                  if (!is_friend(temp_friend)){
+                                    printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
+                                    scanf("%c", resposta);
+                                    if(resposta == "A") { // Aceita o pedido
+                                      accept_friend(temp_friend);
+                                    }
+                                    else if(resposta == "N") { //nega o pedido
+                                      decline_friend(user, temp_friend);
+                                    }
+                                    printf("\n");
+                                  }
+                                  temp_friend = temp_friend->next;
+                                }
                         }
                 }
 
