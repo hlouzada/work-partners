@@ -62,9 +62,9 @@ int main(int argc, char *argv[]) {
                 user_amigo = NULL;
                 temp = NULL;
                 temp_friend = NULL;
-                printf("Olá! >:DD você pode realizar as seguintes ações:");
-                printf("1- Cadastrar usuário. \n");
-                printf("2- Listar usuários. \n");
+                printf("Olá! >:DD voce pode realizar as seguintes acoes:");
+                printf("1- Cadastrar usuario. \n");
+                printf("2- Listar usuarios. \n");
                 printf("3- Enviar pedido de parceria. \n");
                 printf("4- Avaliar pedidos de parceria. \n");
                 printf("5- Enviar mensagem para um parceiro. \n");
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
                 // checar se o usuário colocou um valor válido
                 if ((ordem > 9) || (ordem < 1)) {
                         if ((ordem!= 1337) || (ordem%1 != 0)) {
-                                printf("Favor inserir um valor válido.\n");
+                                printf("Isso nao eh um comando valido >:C Favor inserir um valor valido.\n");
                         }
                 }
 
@@ -99,18 +99,18 @@ int main(int argc, char *argv[]) {
                         } else {
                                 while( get_user(users, nick ) != NULL) {
                                         free(nick); // apaga o ponteiro com o mesmo 
-                                        printf("Esse apelido já está sendo usado, escolha outro apelido:\n");
+                                        printf("Esse apelido ja esta sendo usado >:/ Escolha outro apelido:\n");
                                         nick = read_string();
                                 }
                                 user = new_user(nome, nick);
                                 users = push_user(users, user);
                         }
 
-                        printf("Seja bem-vindo, %s >:DD esse será o nome que deve usar nos comandos. \n", nick);
+                        printf("Seja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
                 }
 
                 else if(ordem == 2) { //lista usuarios
-                        printf("Aqui está a lista de todos os usuários e seus parceiros: \n");
+                        printf("Aqui esta a lista de todos os usuarios e seus parceiros: \n");
                         // Cria um ponteiro temporário para iterar pelos usuários
                         temp = users->start;
                         while (temp != NULL) {
@@ -135,14 +135,14 @@ int main(int argc, char *argv[]) {
                         //funcao que checa e salva o nome se ja foi cadastrado
                         user = get_user(users, nick);
                         if (user == NULL) {
-                                printf("Esse usuário não existe.");
+                                printf("Esse usuario não existe. Tente novamente!");
                         } else {
                                 printf("Quem você gostaria de adicionar, %s ? >:? Coloque o apelido. \n", nick);
                                 amigo = read_string();
                                 //funcao que checa se o amigo existe e salva o nome
                                 user_amigo = get_user(users, amigo);
                                 if (user_amigo == NULL) {
-                                        printf("Esse usuário não existe.");
+                                        printf("Esse usuário não existe. Tente novamente!");
                                 } else {
                                         add_friend_request(user, user_amigo);
                                 }
@@ -199,14 +199,14 @@ int main(int argc, char *argv[]) {
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuário não existe.");
+                                printf("Esse usuario não existe. Tente novamente!");
                         } else{
                                 printf("Para quem gostaria de enviar sua mensagem? >:?");
                                 amigo = read_string();
                                 user_amigo = get_user(users, amigo);
                                 free(amigo);
                                 if (user_amigo == NULL) {
-                                        printf("Esse usuário não existe.");
+                                        printf("Esse usuario não existe. Tente novamente!");
                                 } else {
                                         // Checar se são amigos primeiro
                                         temp_friend = user->friend_list->start;
@@ -216,7 +216,7 @@ int main(int argc, char *argv[]) {
                                                         mensagem = read_string();
                                                         send_message(user, user_amigo, mensagem);
                                                         printf("\n");
-                                                } else { printf("Você só pode enviar mensagens para seus amigos.\n");}
+                                                } else { printf("Você soh pode enviar mensagens para seus amigos.\n");}
                                                 temp_friend = temp_friend->next;
                                         }
 
@@ -231,9 +231,9 @@ int main(int argc, char *argv[]) {
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuário não existe.");
+                                printf("Esse usuario não existe. Tente novamente!");
                         } else{
-                                printf("Aqui estão suas mensagens >:DD");
+                                printf("Aqui estao suas mensagens >:DD");
                                 //funcao que mostra mensagens
                                 get_messages(user->message_stack);
                         }
