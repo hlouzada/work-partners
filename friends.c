@@ -4,14 +4,14 @@
 #include "users.h"
 
 
-// Creates a new FriendRequest Struct instance
-// Common to each Friend node from user's friend list 
-// If isfriend is true means that the users are friend
-// And the request has being accepted
+// Cria uma nova instância de Struct FriendRequest
+// Comum a cada nódulo Friend da lista de amigos do usuário
+// Se isfriend for verdade para ambos os usuários significa que eles são amigos
+// E o pedido foi aceito
 FriendRequest * new_friendrequest(User *from, User *to) {
-    FriendRequest *newrequest = NULL;
-
-    newrequest = (FriendRequest *) malloc(sizeof(FriendRequest));
+    // Aloca espaço para o pedido
+    FriendRequest *newrequest = malloc(sizeof(FriendRequest));
+    // Verifica se o malloc funcionou
     if (!newrequest) {
         exit(1);
     }
@@ -24,13 +24,12 @@ FriendRequest * new_friendrequest(User *from, User *to) {
 }
 
 
-// Creates a new Friend struct instance
-// Each user will have it's own friend
-// With it's own FriendList
+// Cria uma nova instancia da struct Friend
+// Cada usuário terá seu próprio amigo
+// Cada um com sua própria lista de amigos
 Friend * new_friend(FriendRequest *friendrequest) {
-    Friend *newfriend = NULL;
 
-    newfriend = (Friend *) malloc(sizeof(Friend));
+    Friend *newfriend = malloc(sizeof(Friend));
     if (!newfriend) {
         exit(1);
     }
@@ -42,12 +41,11 @@ Friend * new_friend(FriendRequest *friendrequest) {
 }
 
 
-// Creates a new FriendList
-// And adds a new friend to it's start and end pointers
+// Função que cria nova lista de amigos
+// E adiciona uma um novo amigo para suas posições de inicio e fim
 FriendList * new_friendlist(Friend *newfriend) {
-    FriendList *new_friendlist = NULL;
 
-    new_friendlist = (FriendList *) malloc(sizeof(FriendList));
+    FriendList *new_friendlist = malloc(sizeof(FriendList));
     if (!new_friendlist) {
         exit(1);
     }
@@ -59,8 +57,8 @@ FriendList * new_friendlist(Friend *newfriend) {
 }
 
 
-// Adds a new friend to the end of friendlist
-// or create it if the list doesn't exist
+// Adiciona um novo amigo para o fim da lista de amigos
+// ou cria um se uma se a lista não existe
 FriendList * add_friend_to_list(FriendList *friendlist, Friend *newfriend) {
     if (friendlist == NULL) {
         FriendList* newfriendlist = new_friendlist(newfriend);
@@ -74,8 +72,9 @@ FriendList * add_friend_to_list(FriendList *friendlist, Friend *newfriend) {
 }
 
 
-// "Sends" a friend request to a user
-// By adding a new friend node with a friendrequest to it's friend list 
+// Envia um pedido de amizade ao usuário
+// Adicionando um novo nódulo de amigo com um pedido de amizade
+// para a lista de amizades de usuário
 void add_user_request(User *user, FriendRequest *newrequest) {
     Friend *newfriend = new_friend(newrequest);
 
@@ -83,8 +82,7 @@ void add_user_request(User *user, FriendRequest *newrequest) {
 }
 
 
-// Create a new friend request between two users
-// With a shared friend request
+// Cria um novo pedido de amizade entre dois usuários
 void add_friend_request(User *from, User *to) {
     FriendRequest* newrequest = new_friendrequest(from, to);
 
@@ -94,34 +92,33 @@ void add_friend_request(User *from, User *to) {
 }
 
 
-// Accepts the friend request
-// by changing it's boolean isfriend to true
-// In the interface this can be used 
-// to see if it's a proper friend or a request 
+
+// Aceita o pedido de amizade
+// Ao mudar a booleana isfriend para verdadeira
+// Na interface isso pode ser usado
+// Para verificar se o nódulo é um amigo confirmado ou um pedido.
 void accept_friend(Friend *friendnode) {
     friendnode -> friend_request -> isfriend = true;
 }
 
 
-// Removes a friend node from the friend list
-// checks if the friend node is in the start, middle or end
-// to delete so the list dosen't break
-// and frees the occupied friend node's memory 
+// Remove um nódulo de amigo da lista de amigos
+// Verifica se o nódulo de amigos está no começo meio ou fim
+// Para deletar de forma que a lista não quebre
+// E libera a memória ocupada pelo nódulo do amigo
 FriendList * remove_friend_from_list(FriendList *friendlist, Friend *friendnode) {
     if (friendlist -> start == friendnode) {
         friendlist -> start = friendnode -> next;
     } else {
-        Friend *prev_temp = NULL;
         Friend *temp = friendlist -> start;
-        while (temp != friendnode) {
-            prev_temp = temp;
+        while (temp -> next != friendnode) {
             temp = temp -> next;
         }
         if (friendlist -> end == friendnode) {
-            prev_temp -> next = NULL;
-            friendlist -> end = prev_temp;
+            temp -> next = NULL;
+            friendlist -> end = temp;
         } else {
-            prev_temp -> next = friendnode -> next;
+            temp -> next = friendnode -> next;
         }
     }
 
@@ -131,8 +128,8 @@ FriendList * remove_friend_from_list(FriendList *friendlist, Friend *friendnode)
 }
 
 
-// Removes all friends from list and delete it self
-// also freeing it's occupied memory
+// Remove todos os amigos da lista e se auto deleta
+// Liberando sua memória ocupada.
 void delete_friendlist(FriendList *friendlist) {
     Friend *temp = friendlist -> start;
     while (friendlist -> start != NULL) {
@@ -146,7 +143,7 @@ void delete_friendlist(FriendList *friendlist) {
 }
 
 
-// Returns the Friend node containg the FriendRequest from the list
+// Retorna o nódulo do amigo contendo o pedido de amizade da lista
 Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request) {
     Friend *temp = friendlist -> start;
     while (temp -> friend_request != request) {
@@ -157,12 +154,12 @@ Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request)
 }
 
 
-// Decline the friend request
-// by removing the friend node from the "from" and "to" users
-// and removing it's shared request
+// Recusa o pedido de amizade
+// Removendo o nódulo do amigo dos dois usuários
+// E removendo o pedido compartilhado pelos dois.
 void decline_friend(User *user, Friend *friendnode) {
     FriendRequest *request = friendnode -> friend_request;
-    
+
     user -> friend_list = remove_friend_from_list(user -> friend_list, friendnode);
 
     User *other_user = NULL;
@@ -174,14 +171,14 @@ void decline_friend(User *user, Friend *friendnode) {
 
     Friend * other_friendnode = get_friend_from_request(other_user -> friend_list, request);
 
-    //removing from the other user
+    // Removendo do outro usuário
     other_user -> friend_list = remove_friend_from_list(other_user -> friend_list, other_friendnode);
 
     free(request);
 }
 
 
-// Checks if it's a friend or a request
+// Verifica se é um amigo ou um pedido
 bool is_friend(Friend *friendnode) {
     return friendnode -> friend_request -> isfriend;
 }
