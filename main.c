@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
         char* nome; // nome do usuário
         char* amigo; // nome do amigo
         char* mensagem; // texto da mensagem
+        char* choice;
         User *user = NULL;
         User *user_amigo = NULL;
         User *temp = NULL;
@@ -182,7 +183,7 @@ int main(int argc, char *argv[]) {
                                                 if(is_friend(temp_friend)) {
                                                         printf("Escreva sua mensagem! >:DD");
                                                         scanf("%s", mensagem);
-                                                        send_message(nick, amigo, mensagem);
+                                                        send_message(user, user_amigo, mensagem);
                                                         printf("\n");
                                                 } else { printf("Você só pode enviar mensagens para seus amigos.\n");}
                                                 temp_friend = temp_friend->next;
@@ -225,25 +226,22 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 9) { //Resetar sistema
-                        char choice;
                         printf("Você está prestes a apagar todos os dados da lista de usuários, tem certeza? (Y/N)\n");
-                        scanf("%c", choice)
+                        scanf("%s", choice)
 
-                        if (choice == Y) {reset_system(users);}
+                        if (choice == "Y") {reset_system(users);}
 
                 }
-
                 else if(ordem == 1337) { //Encerra sessao
-                        char choice;
                         printf("Deseja encerrar o programa? (Y/N)\n");
-                        if (choice == Y) {
+                        if (choice == "Y") {
                                 reset_system(users);
                                 free(user);
                                 free(user_amigo);
                                 free(temp);
                                 free(temp_friend);
                                 free(users);
-                                printf("Até a proxima! >:DD");
+                                printf("Até a próxima! >:DD");
                                 break;
                         }
 
