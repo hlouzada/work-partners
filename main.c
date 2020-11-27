@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "users.h"
 #include "friends.h"
@@ -79,11 +79,11 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 2) { //lista usuarios
-                        printf("Aqui está a lista de todos os usuários e seus amigos: \n");
+                        printf("Aqui está a lista de todos os usuários e seus parceiros: \n");
                         // Cria um ponteiro temporário para iterar pelos usuários
                         User *temp = users->start;
                         while (temp != NULL) {
-                                printf("%s com os amigos: ", temp->nick);
+                                printf("%s com os parceiros: ", temp->nick);
                                 Friend *temp_friend = temp->friend_list->start;
                                 while(temp_friend != NULL) {
                                         if(is_friend(temp_friend)) {
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 4) { //avaliar pedido amigo
-                        char* nick; // precisamos declarar tantas vezes a mesma variável?
+                        char* nick;
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
@@ -137,20 +137,20 @@ int main(int argc, char *argv[]) {
 
                                 // Função que lista os pedidos de amigo
                                 Friend *temp_friend = user->friend_list->start;
-                                while(temp_friend != NULL){
-                                  // Se eles já não forem amigos
-                                  if (!is_friend(temp_friend)){
-                                    printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
-                                    scanf("%c", resposta);
-                                    if(resposta == "A") { // Aceita o pedido
-                                      accept_friend(temp_friend);
-                                    }
-                                    else if(resposta == "N") { //nega o pedido
-                                      decline_friend(user, temp_friend);
-                                    }
-                                    printf("\n");
-                                  }
-                                  temp_friend = temp_friend->next;
+                                while(temp_friend != NULL) {
+                                        // Se eles já não forem amigos
+                                        if (!is_friend(temp_friend)) {
+                                                printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
+                                                scanf("%c", resposta);
+                                                if(resposta == "A") { // Aceita o pedido
+                                                        accept_friend(temp_friend);
+                                                }
+                                                else if(resposta == "N") { //nega o pedido
+                                                        decline_friend(user, temp_friend);
+                                                }
+                                                printf("\n");
+                                        }
+                                        temp_friend = temp_friend->next;
                                 }
                         }
                 }
@@ -173,9 +173,18 @@ int main(int argc, char *argv[]) {
                                 if (user_amigo == NULL) {
                                         printf("Esse usuário não existe.");
                                 } else {
-                                        printf("Escreva sua mensagem! >:DD");
-                                        scanf("%s", mensagem);
-                                        send_message(nick, amigo, mensagem);
+                                        // Checar se são amigos primeiro
+                                        Friend *temp = user->friend_list->start;
+                                        while(((temp->friend_request->from != user_amigo) || (temp->friend_request->to != user_amigo)) || (temp != NULL) ) {
+                                                if(is_friend(temp)) {
+                                                        printf("Escreva sua mensagem! >:DD");
+                                                        scanf("%s", mensagem);
+                                                        send_message(nick, amigo, mensagem);
+                                                        printf("\n");
+                                                } else { printf("Você só pode enviar mensagens para seus amigos.\n");}
+                                                temp = temp->next;
+                                        }
+
                                 }
                         }
                 }
