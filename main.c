@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 #include "users.h"
 #include "friends.h"
@@ -32,7 +34,7 @@ char * read_string() {
         }
         str[len++] = ch;
     }
-    
+
     if (str != NULL) {
         str[len] = '\0';
     }
@@ -57,7 +59,7 @@ int main() {
                 user_amigo = NULL;
                 temp = NULL;
                 temp_friend = NULL;
-                printf("Ola! >:DD voce pode realizar as seguintes acoes:\n");
+                printf("\nOla! >:DD voce pode realizar as seguintes acoes:\n");
                 printf("1- Cadastrar usuario.\n");
                 printf("2- Listar usuarios.\n");
                 printf("3- Enviar pedido de parceria.\n");
@@ -94,7 +96,7 @@ int main() {
                                 users = new_user_list(user);
                         } else {
                                 while( get_user(users, nick ) != NULL) {
-                                        free(nick); // apaga o ponteiro com o mesmo 
+                                        free(nick); // apaga o ponteiro com o mesmo
                                         printf("Esse apelido ja esta sendo usado >:/ Escolha outro apelido:\n");
                                         nick = read_string();
                                 }
@@ -102,7 +104,7 @@ int main() {
                                 users = push_user(users, user);
                         }
 
-                        printf("Seja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
+                        printf("\nSeja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
                 }
 
                 else if(ordem == 2) { //lista usuarios
@@ -111,15 +113,18 @@ int main() {
                         temp = users->start;
                         while (temp != NULL) {
                                 printf("%s com os parceiros: ", temp->nick);
-                                temp_friend = temp->friend_list->start;
-                                while(temp_friend != NULL) {
-                                        if(is_friend(temp_friend)) {
-                                                printf("%s, ", temp_friend->friend_request->from->nick);
-                                                // estou com medo de a pessoa que mandou o pedido  ser a pessoa
-                                                // que fez o pedido. Como saber se o usuário é o to ou o from?
-                                        }
-                                        temp_friend = temp_friend->next;
+                                if( temp->friend_list != NULL){
+                                  temp_friend = temp->friend_list->start;
+                                  while(temp_friend != NULL) {
+                                    if(is_friend(temp_friend)) {
+                                      printf("%s, ", temp_friend->friend_request->from->nick);
+                                        // estou com medo de a pessoa que mandou o pedido  ser a pessoa
+                                        // que fez o pedido. Como saber se o usuário é o to ou o from?
+                                    }
+                                    temp_friend = temp_friend->next;
+                                  }
                                 }
+
                                 printf("\n");
                                 temp = temp->next;
                         }
@@ -165,23 +170,23 @@ int main() {
                                 temp_friend = user->friend_list->start;
                                 while(temp_friend != NULL) {
                                         // Se eles já não forem amigos
-                                        if (!is_friend(temp_friend)) {
+                                        if ((!is_friend(temp_friend)) && (strcmp(user->nick, temp_friend->friend_request->from->nick) != 0)) {
                                                 printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
                                                 scanf("%c", &resposta);
                                                 if(resposta == 'A') { // Aceita o pedido
                                                         accept_friend(temp_friend);
-                                                        printf("Voce e %s agora sao Parceiros!", temp_friend->friend_request->from->nick);
+                                                        printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
                                                 }
                                                 else if(resposta == 'N') { //nega o pedido
                                                         decline_friend(user, temp_friend);
-                                                        printf("Voce recusou a Parceria de %s.", temp_friend->friend_request->from->nick);
+                                                        printf("\nVoce recusou a Parceria de %s.\n", temp_friend->friend_request->from->nick);
                                                 }
-                                                printf("\n");
+
                                         }
                                         temp_friend = temp_friend->next;
                                 }
                                 if(temp_friend == NULL){
-                                    printf("Voce nao tem pedidos de amigos >:[ ");
+                                    printf("\nVoce nao tem pedidos de parceria\n");
                                 }
                         }
 
