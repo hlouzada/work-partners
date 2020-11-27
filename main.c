@@ -5,8 +5,20 @@
 #include "friends.h"
 #include "messages.h"
 
-
-
+// Função que recebe uma lista de usuários e libera a memória uutilizada por ela
+// Se deletando, junto com suas sub-listas.
+void reset_system(UserList *list){
+        User *temp = list->start;
+        while (temp != NULL) {
+                // Apagar mensagens
+                free_message_stack(temp->message_stack);
+                // Apagar amizades
+                delete_friendlist(temp->friend_list);
+                temp = temp->next;
+        }
+        // Apagar usuários
+        free_user_list(list);
+}
 
 
 int main(int argc, char *argv[]) {
@@ -193,23 +205,26 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 9) { //Resetar sistema
-                        User *temp = users->start;
-                        while (temp != NULL) {
-                                // Apagar mensagens
-                                free_message_stack(temp->message_stack);
-                                // Apagar amizades
-                                delete_friendlist(temp->friend_list);
-                                temp = temp->next;
-                        }
-                        // Apagar usuários
-                        free_user_list(users);
+                        char choice;
+                        printf("Você está prestes a apagar todos os dados da lista de usuários, tem certeza? (Y/N)\n");
+                        scanf("%c", choice)
+
+                        if (choice == Y) {reset_system(users);}
+
                 }
 
                 else if(ordem == 1337) { //Encerra sessao
+                        char choice;
+                        printf("Deseja encerrar o programa? (Y/N)\n");
+                        if (choice == Y) {
+                                reset_system(users);
+                                printf("Até a proxima! >:DD");
+                                break;
+                        }
 
                 }
         }
 
+        return 0;
 
-        printf("Ateh a proxima! >:DD");
 }
