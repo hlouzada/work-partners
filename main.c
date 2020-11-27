@@ -131,20 +131,28 @@ int main(int argc, char *argv[]) {
         }
 
         else if(ordem == 5){ //enviar mensagem
-            char nick;
-            char amigo;
-            str mensagem;
+            char* nick;
+            char* amigo;
+            char* mensagem;
 
-            printf("Entre com o seu nome: \n");
-            scanf("%c", nick);
+            printf("Entre com o seu apelido: \n");
+            scanf("%s", nick);
             (); //funcao que checa e salva o nome se ja foi cadastrado
-            printf("Para quem gostaria de enviar sua mensagem? >:?");
-            scanf("%c", amigo)
-            ();
-
-            printf("Escreva sua mensagem! >:DD");
-            scanf("%s", mensagem);
-            ();
+            User *user = get_user(users, nick);
+            if (user == NULL){
+              printf("Esse usuário não existe.");
+            } else{
+              printf("Para quem gostaria de enviar sua mensagem? >:?");
+              scanf("%s", amigo)
+              User *user_amigo = get_user(users, amigo);
+              if (user_amigo == NULL){
+                printf("Esse usuário não existe.");
+              } else {
+                printf("Escreva sua mensagem! >:DD");
+                scanf("%s", mensagem);
+                send_message(nick, amigo, mensagem);
+              }
+            }
         }
 
         else if(ordem == 6){ //ler mensagem
