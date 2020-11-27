@@ -102,6 +102,70 @@ void accept_friend(Friend *friendnode) {
     friendnode -> friend_request -> isfriend = true;
 }
 
+
+// Removes a friend node from the friend list
+// checks if the friend node is in the start, middle or end
+// to delete so the list dosen't break
+// and frees the occupied friend node's memory 
+FriendList * remove_friend_from_list(FriendList *friendlist, Friend *friendnode) {
+    if (friendlist -> start == friendnode) {
+        friendlist -> start = friendnode -> next;
+    } else {
+        Friend *prev_temp = NULL;
+        Friend *temp = friendlist -> start;
+        while (temp != friendnode) {
+            prev_temp = temp;
+            temp = temp -> next;
+        }
+        if (friendlist -> end == friendnode) {
+            prev_temp -> next = NULL;
+            friendlist -> end = prev_temp;
+        } else {
+            prev_temp -> next = friendnode -> next;
+        }
+    }
+
+    free(friendnode);
+
+    return friendlist;
+}
+
+
+// Returns the Friend node containg the FriendRequest from the list
+Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request) {
+    Friend *temp = friendlist -> start;
+    while (temp -> friend_request != request) {
+        temp = temp -> next;
+    }
+
+    return temp;
+}
+
+
+// Decline the friend request
+// by removing the friend node from the "from" and "to" users
+// and removing it's shared request
+void decline_friend(User *user, Friend *friendnode) {
+    FriendRequest *request = friendnode -> friend_request;
+    
+    user -> friend_list = remove_friend_from_list(user -> friend_list, friendnode);
+
+    User *other_user = NULL;
+    if (user == request -> from) {
+       other_user = request -> to;
+    } else {
+       other_user = request -> from;
+    }
+
+    Friend * other_friendnode = get_friend_from_request(other_user -> friend_list, request);
+
+    //removing from the other user
+    other_user -> friend_list = remove_friend_from_list(other_user -> friend_list, other_friendnode);
+
+    free(request);
+}
+
+
 // Checks if it's a friend or a request
 bool is_friend(Friend *friendnode) {
     return friendnode -> friend_request -> isfriend;
