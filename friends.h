@@ -30,7 +30,7 @@ void free_friend_node(FriendList *friendnode);
 
 void accept_friend(Friend *friendnode);
 
-void decline_friend(Friend *friendnode);
+void decline_friend(User *user, Friend *friendnode);
 
 bool is_friend(Friend *friendnode);
 
