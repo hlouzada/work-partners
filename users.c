@@ -57,7 +57,7 @@ User * get_user(UserList *list, char* nick){
   User *temp = list->start;
   // Enquanto o apelido do temporário não for igual ao dado
   // Ou até chegarmos no final da lista
-  while ((strcmp(temp->nick, nick) != 0) || (temp->next != NULL)){
+  while ((strcmp(temp->nick, nick) != 0) && (temp->next != NULL)){
     temp = temp->next;
   }
   // Caso estejamos no último elemento e ainda não seja igua;
@@ -78,7 +78,7 @@ void delete_user(UserList *list, char* nick){
   User *temp = list->start;
   // Enquanto o apelido do temporário não for igual ao dado
   // Ou até chegarmos no final da lista
-  while ((strcmp(temp->nick, nick) != 0) || (temp->next != NULL)){
+  while ((strcmp(temp->nick, nick) != 0) && (temp->next != NULL)){
     temp = temp->next;
   }
   // Caso estejamos no último elemento e ainda não seja igua;
