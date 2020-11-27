@@ -35,7 +35,7 @@ UserList * new_user_list(User *user){
 }
 
 // Função que adiciona um novo usuário
-void push_user(UserList *list, User *user){
+UserList * push_user(UserList *list, User *user){
   // Checar se a lista existe
   if (list == NULL){
     // Se não existe criar nova lista
@@ -45,6 +45,8 @@ void push_user(UserList *list, User *user){
   user->next = list->start;
   list->start = user;
   }
+
+  return list;
 }
 
 // Função que retorna um usuário na lista
