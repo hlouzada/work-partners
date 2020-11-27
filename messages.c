@@ -78,6 +78,7 @@ void free_message_stack(MessageStack *stack){
     // Colocar o próximo valor da pilha no temporário
     temp = (stack->start)->next;
     // Apagar o valor do topo
+    free(stack->start->text); // Apagar a mensagem salva
     free(stack->start);
     // Colocar o valor do temporário como topo.
     stack->start = temp;
