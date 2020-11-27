@@ -23,7 +23,11 @@ void reset_system(UserList *list){
 
 int main(int argc, char *argv[]) {
 
-        UserList *users = NULL;
+        UserList *users = NULL; // lista de usuários
+        char* nick; // apelido do usuário logado
+        char* nome; // nome do usuário
+        char* amigo; // nome do amigo
+        char* mensagem; // texto da mensagem
 
         // Interface de usuário
         // Lista-se as possíveis atividades e recebe ordem do usuário.
@@ -54,8 +58,6 @@ int main(int argc, char *argv[]) {
                 }
 
                 if(ordem == 1) { //Cadastrar usuário
-                        char* nick;
-                        char* nome;
                         printf("Diga seu nome! >:DD \n");
                         scanf("%s", nome);
 
@@ -99,9 +101,6 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 3) { //pedido amigo
-                        char* nick; // precisamos declarar tantas vezes a mesma variável?
-                        char* amigo;
-
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
@@ -122,7 +121,6 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 4) { //avaliar pedido amigo
-                        char* nick;
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
@@ -156,9 +154,6 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 5) { //enviar mensagem
-                        char* nick;
-                        char* amigo;
-                        char* mensagem;
 
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
@@ -190,7 +185,6 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 6) { //ler mensagem
-                        char* nick;
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
@@ -205,14 +199,10 @@ int main(int argc, char *argv[]) {
                 }
 
                 else if(ordem == 7) { //sugerir amigo
-                        char* amigo1; //???
-                        char* amigo2; //???
                         printf("Entre com o seu nome: \n");
                 }
 
                 else if(ordem == 8) { //desfazer amigo
-                        char* nick;
-                        char* amigo;
                         printf("Entre com o seu nome: \n");
                         scanf("%s", nick);
 
