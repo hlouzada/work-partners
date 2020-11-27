@@ -238,6 +238,11 @@ int main(int argc, char *argv[]) {
                         printf("Deseja encerrar o programa? (Y/N)\n");
                         if (choice == Y) {
                                 reset_system(users);
+                                free(user);
+                                free(user_amigo);
+                                free(temp);
+                                free(temp_friend);
+                                free(users);
                                 printf("Até a proxima! >:DD");
                                 break;
                         }
