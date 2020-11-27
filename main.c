@@ -86,7 +86,7 @@ int main() {
                 // checar se o usuário colocou um valor válido
                 if ((ordem > 9) || (ordem < 1)) {
                         if ((ordem!= 1337) || (ordem%1 != 0)) {
-                                printf("Isso nao e um comando valido >:C Favor inserir um valor valido.\n");
+                                printf("Isso nao e um comando valido. Favor inserir um valor valido.\n");
                         }
                 }
 
@@ -113,7 +113,7 @@ int main() {
                                                 users = push_user(users, user);
                                         }
 
-                                        printf("\nSeja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
+                                        printf("\nSeja bem-vindo, %s! Esse sera o nome que deve usar nos comandos. \n", nick);
                                         menu();
                                 } else {
                                         free(nome);
@@ -249,7 +249,7 @@ int main() {
                                                                 if ((temp_friend == NULL) || (!is_friend(temp_friend))) {
                                                                         printf("Voce soh pode enviar mensagens para seus parceiros.\n");
                                                                 } else {
-                                                                        printf("Escreva sua mensagem! >:DD\n");
+                                                                        printf("Escreva sua mensagem!\n");
                                                                         char *mensagem = read_string();
                                                                         send_message(user, user_amigo, mensagem);
                                                                 }
@@ -272,12 +272,12 @@ int main() {
                                 if (user == NULL) {
                                         printf("Esse usuario nao existe. Tente novamente!\n");
                                 } else {
-                                        printf("Aqui estao suas mensagens >:DD\n");
+                                        printf("Aqui estao suas mensagens\n");
                                         //funcao que mostra mensagens
                                         if(user->message_stack != NULL) {
                                                 get_messages(user->message_stack);
                                         } else {
-                                                printf("\nNao ha nenhuma mensagem >:c\n");
+                                                printf("\nNao ha nenhuma mensagem\n");
                                         }
                                         menu();
                                 }
