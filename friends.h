@@ -29,8 +29,8 @@ typedef struct FriendList {
 // Função que cria novo pedido de amizade
 void add_friend_request(User *from, User *to);
 
-// Função que deleta um amigo
-void free_friend_node(FriendList *friendnode);
+// Função que deleta lista toda
+void delete_friendlist(FriendList *friendlist);
 
 // Função para confirmar pedido de amizade
 void accept_friend(Friend *friendnode);
