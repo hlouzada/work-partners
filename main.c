@@ -43,11 +43,6 @@ char * read_string() {
 int main() {
 
         UserList *users = NULL; // lista de usuários
-        char* nick; // apelido do usuário logado
-        char* nome; // nome do usuário
-        char* amigo; // nome do amigo
-        char* mensagem; // texto da mensagem
-        char choice;
         User *user = NULL;
         User *user_amigo = NULL;
         User *temp = NULL;
@@ -62,7 +57,7 @@ int main() {
                 user_amigo = NULL;
                 temp = NULL;
                 temp_friend = NULL;
-                printf("Olá! >:DD voce pode realizar as seguintes acoes:");
+                printf("Ola! >:DD voce pode realizar as seguintes acoes:\n");
                 printf("1- Cadastrar usuario.\n");
                 printf("2- Listar usuarios.\n");
                 printf("3- Enviar pedido de parceria.\n");
@@ -77,7 +72,8 @@ int main() {
                 printf("O que quer fazer? >:?\n");
 
                 scanf("%d", &ordem);
-                printf("\n");
+                getchar(); // Bug do read_string com scanf de pegar mais uma linha, não sei o pq
+
                 // checar se o usuário colocou um valor válido
                 if ((ordem > 9) || (ordem < 1)) {
                         if ((ordem!= 1337) || (ordem%1 != 0)) {
@@ -86,11 +82,11 @@ int main() {
                 }
 
                 if(ordem == 1) { //Cadastrar usuário
-                        printf("Diga seu nome! >:DD \n");
-                        nome = read_string();
+                        printf("Diga seu nome:\n");
+                        char *nome = read_string();
 
-                        printf("Como gostaria de ser chamado? >:? \n");
-                        nick = read_string(); //funcao pra ler
+                        printf("Como gostaria de ser chamado?\n");
+                        char *nick = read_string(); //funcao pra ler
 
 
                         if (users == NULL) {
@@ -131,29 +127,29 @@ int main() {
 
                 else if(ordem == 3) { //pedido amigo
                         printf("Entre com o seu apelido: \n");
-                        nick = read_string();
+                        char *nick = read_string();
                         //funcao que checa e salva o nome se ja foi cadastrado
                         user = get_user(users, nick);
+                        free(nick);
                         if (user == NULL) {
                                 printf("Esse usuario não existe. Tente novamente!");
                         } else {
                                 printf("Quem você gostaria de adicionar, %s ? >:? Coloque o apelido. \n", nick);
-                                amigo = read_string();
+                                char *amigo = read_string();
                                 //funcao que checa se o amigo existe e salva o nome
                                 user_amigo = get_user(users, amigo);
+                                free(amigo);
                                 if (user_amigo == NULL) {
                                         printf("Esse usuário não existe. Tente novamente!");
                                 } else {
                                         add_friend_request(user, user_amigo);
                                 }
                         }
-                        free(nick);
-                        free(amigo);
                 }
 
                 else if(ordem == 4) { //avaliar pedido amigo
                         printf("Entre com o seu apelido: \n");
-                        nick = read_string();
+                        char *nick = read_string();
                         //funcao que checa e salva o nome se ja foi cadastrado
                         user = get_user(users, nick);
                         free(nick);
@@ -194,7 +190,7 @@ int main() {
                 else if(ordem == 5) { //enviar mensagem
 
                         printf("Entre com o seu apelido: \n");
-                        nick = read_string();
+                        char* nick = read_string();
                         //funcao que checa e salva o nome se ja foi cadastrado
                         user = get_user(users, nick);
                         free(nick);
@@ -202,7 +198,7 @@ int main() {
                                 printf("Esse usuario não existe. Tente novamente!");
                         } else{
                                 printf("Para quem gostaria de enviar sua mensagem? >:?");
-                                amigo = read_string();
+                                char* amigo = read_string();
                                 user_amigo = get_user(users, amigo);
                                 free(amigo);
                                 if (user_amigo == NULL) {
@@ -213,7 +209,7 @@ int main() {
                                         while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
                                                 if(is_friend(temp_friend)) {
                                                         printf("Escreva sua mensagem! >:DD");
-                                                        mensagem = read_string();
+                                                        char *mensagem = read_string();
                                                         send_message(user, user_amigo, mensagem);
                                                         printf("\n");
                                                 } else { printf("Você soh pode enviar mensagens para seus amigos.\n");}
@@ -226,7 +222,7 @@ int main() {
 
                 else if(ordem == 6) { //ler mensagem
                         printf("Entre com o seu apelido: \n");
-                        nick = read_string();
+                        char *nick = read_string();
                         //funcao que checa e salva o nome se ja foi cadastrado
                         user = get_user(users, nick);
                         free(nick);
@@ -245,14 +241,14 @@ int main() {
 
                 else if(ordem == 8) { //desfazer amigo
                         printf("Entre com o seu nome: \n");
-                        nick = read_string();
+                        char *nick = read_string();
 
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
                                 printf("Esse usuário não existe.");
                         } else{
-                            amigo = read_string();
+                            char *amigo = read_string();
                             user_amigo = get_user(users, amigo);
                             free(amigo);
                             if (user_amigo == NULL) {
@@ -275,6 +271,7 @@ int main() {
                 }
 
                 else if(ordem == 9) { //Resetar sistema
+                        char choice;
                         printf("Você está prestes a apagar todos os dados da lista de usuários, tem certeza? (Y/N)\n");
                         scanf("%c", &choice);
 
@@ -282,6 +279,7 @@ int main() {
 
                 }
                 else if(ordem == 1337) { //Encerra sessao
+                        char choice;
                         printf("Deseja encerrar o programa? (Y/N)\n");
                         scanf("%c", &choice);
                         if (choice == 'Y') {
