@@ -31,11 +31,11 @@ int main(int argc, char *argv[]) {
         User *user = NULL;
         User *user_amigo = NULL;
         User *temp = NULL;
-        Friend *temp_friend = NULL
+        Friend *temp_friend = NULL;
 
         // Interface de usuário
         // Lista-se as possíveis atividades e recebe ordem do usuário.
-        int ordem;
+        int ordem = 0;
 
         while(ordem != 1337) {
                 user = NULL;
@@ -56,12 +56,12 @@ int main(int argc, char *argv[]) {
                 printf("1337- Encerra a sessão. \n \n");
                 printf("O que quer fazer? >:? \n");
 
-                scanf("%d", ordem);
+                scanf("%d", &ordem);
                 printf("\n");
                 // checar se o usuário colocou um valor válido
                 if ((ordem > 9) || (ordem < 1)) {
                         if ((ordem!= 1337) || (ordem%1 != 0)) {
-                                printf("Favor inserir um valor válido.\n")
+                                printf("Favor inserir um valor válido.\n");
                         }
                 }
 
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
                         if (user == NULL) {
                                 printf("Esse usuário não existe.");
                         } else {
-                                printf("Quem você gostaria de adicionar, %c ? >:? Coloque o apelido. \n", nick)
+                                printf("Quem você gostaria de adicionar, %c ? >:? Coloque o apelido. \n", nick);
                                 scanf("%s", amigo);
                                 //funcao que checa se o amigo existe e salva o nome
                                 user_amigo = get_user(users, amigo);
@@ -147,11 +147,11 @@ int main(int argc, char *argv[]) {
                                         // Se eles já não forem amigos
                                         if (!is_friend(temp_friend)) {
                                                 printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
-                                                scanf("%c", resposta);
-                                                if(resposta == "A") { // Aceita o pedido
+                                                scanf("%c", &resposta);
+                                                if(resposta == 'A') { // Aceita o pedido
                                                         accept_friend(temp_friend);
                                                 }
-                                                else if(resposta == "N") { //nega o pedido
+                                                else if(resposta == 'N') { //nega o pedido
                                                         decline_friend(user, temp_friend);
                                                 }
                                                 printf("\n");
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
                                 printf("Esse usuário não existe.");
                         } else{
                                 printf("Para quem gostaria de enviar sua mensagem? >:?");
-                                scanf("%s", amigo)
+                                scanf("%s", amigo);
                                 user_amigo = get_user(users, amigo);
                                 if (user_amigo == NULL) {
                                         printf("Esse usuário não existe.");
@@ -227,16 +227,16 @@ int main(int argc, char *argv[]) {
                 else if(ordem == 9) { //Resetar sistema
                         char choice;
                         printf("Você está prestes a apagar todos os dados da lista de usuários, tem certeza? (Y/N)\n");
-                        scanf("%c", choice)
+                        scanf("%c", &choice);
 
-                        if (choice == Y) {reset_system(users);}
+                        if (choice == 'Y') {reset_system(users);}
 
                 }
 
                 else if(ordem == 1337) { //Encerra sessao
                         char choice;
                         printf("Deseja encerrar o programa? (Y/N)\n");
-                        if (choice == Y) {
+                        if (choice == 'Y') {
                                 reset_system(users);
                                 free(user);
                                 free(user_amigo);
