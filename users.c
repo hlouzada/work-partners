@@ -46,3 +46,8 @@ void push_user(UserList *list, User *user){
   list->start = user;
   }
 }
+
+// Função que retorna um usuário na lista
+User * get_user(UserList *list, char* nick){
+  
+}
