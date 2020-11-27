@@ -28,9 +28,10 @@ UserList * new_user_list( User *user);
 // Função que adiciona um novo usuário
 void add_user(UserList *list, User *user);
 
-// Função que remove um usuário
-void delete_user(UserList *list, char* username);
+// Retorna um usuário na lista
+User * get_user(UserList *list, char* nick);
 
-User * get_user_nick(char* nick);
+// Função que apaga toda a lista
+void free_user_list(UserList *list);
 
 #endif

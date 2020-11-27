@@ -21,17 +21,6 @@ User * new_user(char*name, char* nick){
   }
 }
 
-/*User * new_user(char *name, char *nick) {
-    User *user = NULL;
-    user = (User *) malloc(sizeof(User));
-    user -> name = name;
-    user -> nick = nick;
-    user -> friend_list = NULL;
-    user -> message_stack = NULL;
-
-    return user;
-   }*/
-
 
 /*UserNode * new_user_list(User *u) {
         UserNode *head = NULL;
