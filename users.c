@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <string.h>
+
 #include "users.h"
 
 // Função que gera um novo usuário
@@ -55,11 +57,11 @@ User * get_user(UserList *list, char* nick){
   User *temp = list->start;
   // Enquanto o apelido do temporário não for igual ao dado
   // Ou até chegarmos no final da lista
-  while ((temp->nick != nick) || (temp->next != NULL)){
+  while ((strcmp(temp->nick, nick) != 0) || (temp->next != NULL)){
     temp = temp->next;
   }
   // Caso estejamos no último elemento e ainda não seja igua;
-  if (temp->nick != nick){
+  if (strcmp(temp->nick, nick) != 0){
     //Se o usuário não existe retornamos um usuário nulo
     return NULL;
   }
@@ -76,11 +78,11 @@ void delete_user(UserList *list, char* nick){
   User *temp = list->start;
   // Enquanto o apelido do temporário não for igual ao dado
   // Ou até chegarmos no final da lista
-  while ((temp->next->nick != nick) || (temp->next != NULL)){
+  while ((strcmp(temp->nick, nick) != 0) || (temp->next != NULL)){
     temp = temp->next;
   }
   // Caso estejamos no último elemento e ainda não seja igua;
-  if (temp->next->nick != nick){
+  if (strcmp(temp->nick, nick) != 0) {
     //Se o usuário não existe retornamos um usuário nulo
     exit(1);
   }
@@ -89,6 +91,8 @@ void delete_user(UserList *list, char* nick){
     // Achamos o ponteiro que queremos deletar
     User *user = previous->next;
     previous->next = user->next;
+    free(user->name); // Apaga o ponteiro do nome
+    free(user->nick); // Apaga o pointeiro do nick
     free(user);
   }
 }
@@ -103,6 +107,8 @@ void free_user_list(UserList *list){
     // Colocar o próximo valor da pilha no temporário
     temp = (list->start)->next;
     // Apagar o valor do topo
+    free(list->start->name);
+    free(list->start->nick);
     free(list->start);
     // Colocar o valor do temporário como topo.
     list->start = temp;
