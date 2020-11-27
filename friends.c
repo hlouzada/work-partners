@@ -58,21 +58,33 @@ FriendList * new_friendlist(Friend *newfriend) {
     return new_friendlist;
 }
 
-void add_user_request(User *user, FriendRequest *newrequest) {
-    if (user -> friend_list == NULL) {
-        Friend *newfriend = new_friend(newrequest);
+
+// Adds a new friend to the end of friendlist
+// or create it if the list doesn't exist
+FriendList * add_friend_to_list(FriendList *friendlist, Friend *newfriend) {
+    if (friendlist == NULL) {
         FriendList* newfriendlist = new_friendlist(newfriend);
-
-        user -> friend_list = newfriendlist;
+        friendlist = newfriendlist;
     } else {
-        Friend *newfriend = new_friend(newrequest);
-
-        user -> friend_list -> start -> next = newfriend;
-        user -> friend_list -> end = newfriend;
+        friendlist -> start -> next = newfriend;
+        friendlist -> end = newfriend;
     }
+
+    return friendlist;
 }
 
 
+// "Sends" a friend request to a user
+// By adding a new friend node with a friendrequest to it's friend list 
+void add_user_request(User *user, FriendRequest *newrequest) {
+    Friend *newfriend = new_friend(newrequest);
+
+    user -> friend_list = add_friend_to_list(user -> friend_list, newfriend);
+}
+
+
+// Create a new friend request between two users
+// With a shared friend request
 void add_friend_request(User *from, User *to) {
     FriendRequest* newrequest = new_friendrequest(from, to);
 
@@ -81,10 +93,16 @@ void add_friend_request(User *from, User *to) {
     add_user_request(to, newrequest);
 }
 
-void add_friend(Friend *friendnode) {
+
+// Accepts the friend request
+// by changing it's boolean isfriend to true
+// In the interface this can be used 
+// to see if it's a proper friend or a request 
+void accept_friend(Friend *friendnode) {
     friendnode -> friend_request -> isfriend = true;
 }
 
+// Checks if it's a friend or a request
 bool is_friend(Friend *friendnode) {
     return friendnode -> friend_request -> isfriend;
 }
