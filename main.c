@@ -18,11 +18,11 @@ int main(int argc, char *argv[]) {
     int ordem;
 
     while(ordem != 1337){
-        printf("Olah! >:DD voce pode realizar as seguintes ações:");
+        printf("Olá! >:DD voce pode realizar as seguintes ações:");
         printf("1- Cadastrar usuário. \n");
         printf("2- Listar usuários. \n");
-        printf("3- Enviar pedido de amigo. \n");
-        printf("4- Avaliar pedidos de amigo. \n");
+        printf("3- Enviar pedido de amizade. \n");
+        printf("4- Avaliar pedidos de amizade. \n");
         printf("5- Enviar mensagem para um amigo. \n");
         printf("6- Visualizar suas mensagens. \n");
         printf("7- Sugerir amizades! \n");
@@ -52,32 +52,47 @@ int main(int argc, char *argv[]) {
 
 
             if (!users){
-              user = new_user(nome, nick);
+              User *user = new_user(nome, nick);
               users = new_user_list(user);
             } else {
               while( get_user(users, nick ) == NULL){
                 printf("Esse apelido já está sendo usado, escolha outro apelido:\n");
                 scanf("%s", nick);
               }
-              user = new_user(nome, nick);
+              User *user = new_user(nome, nick);
               users = push_user(users, user);
             }
 
-            printf("Seja bem-vindo, %c >:DD esse sera o nome que deve usar nos comandos. \n", nick);
+            printf("Seja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
         }
 
         else if(ordem == 2){ //lista usuarios
-            printf("Aqui estah a lista de todos os usuarios: \n");
-        ()
-        }
+            printf("Aqui está a lista de todos os usuários e seus amigos: \n");
+            // Cria um ponteiro temporário para iterar pelos usuários
+            User *temp = users->start;
+            while (temp != NULL){
+              printf("%s com os amigos: ", temp->nick);
+              Friend *temp_friend = temp->friend_list->start;
+              while(temp_friend != NULL){
+                if(is_friend(temp_friend)){
+                  printf("%s, ", temp_friend->friend_request->from->nick);
+                  // estou com medo de a pessoa que mandou o pedido  ser a pessoa
+                  // que fez o pedido. Como saber se o usuário é o to ou o from?
+                }
+                temp_friend = temp_friend->next;
+              }
+              printf("\n");
+              temp = temp->next;
+            }
+          }
 
         else if(ordem == 3){ //pedido amigo
-            char nick;
-            char amigo;
+            char* nick;
+            char* amigo;
 
-            printf("Entre com o seu nome: \n");
-            scanf("%c", nick);
-            () //funcao que checa e salva o nome se ja foi cadastrado
+            printf("Entre com o seu apelido: \n");
+            scanf("%s", nick);
+           //funcao que checa e salva o nome se ja foi cadastrado
 
             printf("Quem voce gostaria de adicionar, %c ? >:? Coloque o apelido. \n", nick)
             scanf("%", amigo)
