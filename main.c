@@ -125,9 +125,11 @@ int main() {
                                   temp_friend = temp->friend_list->start;
                                   while(temp_friend != NULL) {
                                     if(is_friend(temp_friend)) {
-                                      printf("%s, ", temp_friend->friend_request->from->nick);
-                                        // estou com medo de a pessoa que mandou o pedido  ser a pessoa
-                                        // que fez o pedido. Como saber se o usuário é o to ou o from?
+                                        if (temp_friend->friend_request->from == temp) {
+                                                printf("%s, ", temp_friend->friend_request->to->nick);
+                                        } else {
+                                                printf("%s, ", temp_friend->friend_request->from->nick);
+                                        }
                                     }
                                     temp_friend = temp_friend->next;
                                   }
@@ -221,6 +223,7 @@ int main() {
                                 } else {
                                         // Checar se são amigos primeiro
                                         temp_friend = user->friend_list->start;
+<<<<<<< HEAD
                                         while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
                                                 if(is_friend(temp_friend)) {
                                                         printf("Escreva sua mensagem!\n");
@@ -228,9 +231,18 @@ int main() {
                                                         send_message(user, user_amigo, mensagem);
                                                         printf("\n");
                                                 } else { printf("Você so pode enviar mensagens para seus amigos.\n");}
+=======
+                                        while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
+>>>>>>> 9a74045605075e1af4a27ed0da23254a3c416f52
                                                 temp_friend = temp_friend->next;
                                         }
-
+                                        if ((temp_friend == NULL) || (!is_friend(temp_friend))) {
+                                                printf("Você soh pode enviar mensagens para seus amigos.\n");
+                                        } else {
+                                                printf("Escreva sua mensagem! >:DD\n");
+                                                char *mensagem = read_string();
+                                                send_message(user, user_amigo, mensagem);
+                                        }
                                 }
                         }
                         menu();
