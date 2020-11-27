@@ -271,7 +271,7 @@ int main() {
                                 free(nick);
                                 if (user == NULL) {
                                         printf("Esse usuario nao existe. Tente novamente!\n");
-                                } else{
+                                } else {
                                         printf("Aqui estao suas mensagens >:DD\n");
                                         //funcao que mostra mensagens
                                         if(user->message_stack != NULL) {
@@ -279,8 +279,13 @@ int main() {
                                         } else {
                                                 printf("\nNao ha nenhuma mensagem >:c\n");
                                         }
-                                menu();
+                                        menu();
+                                }
                         }        
+                                }
+                        }          
+                }
+                        }          
                 }
 
                 else if ((ordem == 7) && (users != NULL)) { //sugerir amigo
