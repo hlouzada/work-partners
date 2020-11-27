@@ -3,6 +3,11 @@
 #include "friends.h"
 #include "users.h"
 
+
+// Creates a new FriendRequest Struct instance
+// Common to each Friend node from user's friend list 
+// If isfriend is true means that the users are friend
+// And the request has being accepted
 FriendRequest * new_friendrequest(User *from, User *to) {
     FriendRequest *newrequest = NULL;
 
@@ -18,6 +23,10 @@ FriendRequest * new_friendrequest(User *from, User *to) {
     return newrequest;
 }
 
+
+// Creates a new Friend struct instance
+// Each user will have it's own friend
+// With it's own FriendList
 Friend * new_friend(FriendRequest *friendrequest) {
     Friend *newfriend = NULL;
 
@@ -32,6 +41,9 @@ Friend * new_friend(FriendRequest *friendrequest) {
     return newfriend;
 }
 
+
+// Creates a new FriendList
+// And adds a new friend to it's start and end pointers
 FriendList * new_friendlist(Friend *newfriend) {
     FriendList *new_friendlist = NULL;
 
