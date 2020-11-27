@@ -117,9 +117,11 @@ int main() {
                                   temp_friend = temp->friend_list->start;
                                   while(temp_friend != NULL) {
                                     if(is_friend(temp_friend)) {
-                                      printf("%s, ", temp_friend->friend_request->from->nick);
-                                        // estou com medo de a pessoa que mandou o pedido  ser a pessoa
-                                        // que fez o pedido. Como saber se o usuário é o to ou o from?
+                                        if (temp_friend->friend_request->from == temp) {
+                                                printf("%s, ", temp_friend->friend_request->to->nick);
+                                        } else {
+                                                printf("%s, ", temp_friend->friend_request->from->nick);
+                                        }
                                     }
                                     temp_friend = temp_friend->next;
                                   }
