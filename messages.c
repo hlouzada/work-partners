@@ -65,7 +65,7 @@ void get_messages(MessageStack *stack){
   Message *temp = stack->start;
   // Enquanto não chegar no fim da fila
   while (temp != NULL){
-    printf("(%s) %s", (temp->from)->nick, temp->text);
+    printf("(%s) %s\n", (temp->from)->nick, temp->text);
     temp = temp->next;
   }
 }
