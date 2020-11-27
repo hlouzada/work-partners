@@ -131,6 +131,21 @@ FriendList * remove_friend_from_list(FriendList *friendlist, Friend *friendnode)
 }
 
 
+// Removes all friends from list and delete it self
+// also freeing it's occupied memory
+void delete_friendlist(FriendList *friendlist) {
+    Friend *temp = friendlist -> start;
+    while (friendlist -> start != NULL) {
+        temp = temp -> next;
+        if (friendlist -> start -> friend_request) {
+            free(friendlist -> start -> friend_request);
+        }
+        free(friendlist -> start);
+        friendlist -> start = temp;
+    }
+}
+
+
 // Returns the Friend node containg the FriendRequest from the list
 Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request) {
     Friend *temp = friendlist -> start;
