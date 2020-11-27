@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
 
             printf("Entre com o seu apelido: \n");
             scanf("%s", nick);
-            (); //funcao que checa e salva o nome se ja foi cadastrado
+            //funcao que checa e salva o nome se ja foi cadastrado
             User *user = get_user(users, nick);
             if (user == NULL){
               printf("Esse usuário não existe.");
@@ -157,34 +157,43 @@ int main(int argc, char *argv[]) {
 
         else if(ordem == 6){ //ler mensagem
             char nick;
-            printf("Entre com o seu nome: \n");
+            printf("Entre com o seu apelido: \n");
             scanf("%c", nick);
-            (); //funcao que checa e salva o nome se ja foi cadastrado
-
-            printf("Aqui estao suas mensagens >:DD mais antigas primeiro");
-            (); //funcao que mostra mensagens
+            //funcao que checa e salva o nome se ja foi cadastrado
+            User *user = get_user(users, nick);
+            if (user == NULL){
+              printf("Esse usuário não existe.");
+            } else{
+              printf("Aqui estão suas mensagens >:DD");
+              //funcao que mostra mensagens
+              get_messages(user->message_stack);
+            }
         }
 
         else if(ordem == 7){ //sugerir amigo
-            char amigo1; //???
-            char amigo2; //???
+            char* amigo1; //???
+            char* amigo2; //???
             printf("Entre com o seu nome: \n");
         }
 
         else if(ordem == 8){ //desfazer amigo
-            char nick;
-            char amigo;
+            char* nick;
+            char* amigo;
             printf("Entre com o seu nome: \n");
-            scanf("%c", nick);
+            scanf("%s", nick);
             ();
 
             printf("Com quem gostaria de terminar a Parceria?");
-            scanf("%c", amigo);
+            scanf("%s", amigo);
             ();
 
             (); //funcao que exclui amigo
             printf("Sua Parceria foi desfeita com sucesso!");
 
+        }
+
+        else if(ordem == 9){ //Resetar sistema
+          
         }
 
         else if(ordem == 1337){ //Encerra sessao
