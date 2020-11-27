@@ -40,7 +40,7 @@ char * read_string() {
     return str;
 }
 
-int main(int argc, char *argv[]) {
+int main() {
 
         UserList *users = NULL; // lista de usuários
         char* nick; // apelido do usuário logado
@@ -62,19 +62,19 @@ int main(int argc, char *argv[]) {
                 user_amigo = NULL;
                 temp = NULL;
                 temp_friend = NULL;
-                printf("Olá! >:DD você pode realizar as seguintes ações:");
-                printf("1- Cadastrar usuário. \n");
-                printf("2- Listar usuários. \n");
-                printf("3- Enviar pedido de parceria. \n");
-                printf("4- Avaliar pedidos de parceria. \n");
-                printf("5- Enviar mensagem para um parceiro. \n");
-                printf("6- Visualizar suas mensagens. \n");
-                printf("7- Sugerir parcerias! \n");
-                printf("8- Encerrar uma parceria. \n");
-                printf("9- Reinicializar sistema. \n");
+                printf("Olá! >:DD você pode realizar as seguintes ações:\n");
+                printf("1- Cadastrar usuário.\n");
+                printf("2- Listar usuários.\n");
+                printf("3- Enviar pedido de parceria.\n");
+                printf("4- Avaliar pedidos de parceria.\n");
+                printf("5- Enviar mensagem para um parceiro.\n");
+                printf("6- Visualizar suas mensagens.\n");
+                printf("7- Sugerir parcerias!\n");
+                printf("8- Encerrar uma parceria.\n");
+                printf("9- Reinicializar sistema.\n");
 
-                printf("1337- Encerra a sessão. \n \n");
-                printf("O que quer fazer? >:? \n");
+                printf("1337- Encerra a sessão.\n\n");
+                printf("O que quer fazer? >:?\n");
 
                 scanf("%d", &ordem);
                 printf("\n");
@@ -247,16 +247,30 @@ int main(int argc, char *argv[]) {
                         printf("Entre com o seu nome: \n");
                         nick = read_string();
 
-
-                        printf("Com quem gostaria de terminar a Parceria?");
-                        amigo = read_string();
-
-
-                        //funcao que exclui amigo
-                        printf("Sua Parceria foi desfeita com sucesso!");
-
+                        user = get_user(users, nick);
                         free(nick);
-                        free(amigo);
+                        if (user == NULL) {
+                                printf("Esse usuário não existe.");
+                        } else{
+                            amigo = read_string();
+                            user_amigo = get_user(users, amigo);
+                            free(amigo);
+                            if (user_amigo == NULL) {
+                                    printf("Esse usuário não existe.");
+                            } else {
+                                    // Checar se são amigos primeiro
+                                    temp_friend = user->friend_list->start;
+                                    while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
+                                            if(is_friend(temp_friend)) {
+                                                    decline_friend(user, temp_friend);
+                                            } else { printf("Você só pode desfazer parceria com seus parceiros.\n");}
+                                            temp_friend = temp_friend->next;
+                                    }
+
+                            }
+                            //funcao que exclui amigo
+                            printf("Sua Parceria foi desfeita com sucesso!");
+                        }
 
                 }
 
