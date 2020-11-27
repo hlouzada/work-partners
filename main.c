@@ -223,17 +223,7 @@ int main() {
                                 } else {
                                         // Checar se são amigos primeiro
                                         temp_friend = user->friend_list->start;
-<<<<<<< HEAD
-                                        while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
-                                                if(is_friend(temp_friend)) {
-                                                        printf("Escreva sua mensagem!\n");
-                                                        char *mensagem = read_string();
-                                                        send_message(user, user_amigo, mensagem);
-                                                        printf("\n");
-                                                } else { printf("Você so pode enviar mensagens para seus amigos.\n");}
-=======
                                         while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
->>>>>>> 9a74045605075e1af4a27ed0da23254a3c416f52
                                                 temp_friend = temp_friend->next;
                                         }
                                         if ((temp_friend == NULL) || (!is_friend(temp_friend))) {
