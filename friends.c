@@ -110,17 +110,15 @@ FriendList * remove_friend_from_list(FriendList *friendlist, Friend *friendnode)
     if (friendlist -> start == friendnode) {
         friendlist -> start = friendnode -> next;
     } else {
-        Friend *prev_temp = NULL;
         Friend *temp = friendlist -> start;
-        while (temp != friendnode) {
-            prev_temp = temp;
+        while (temp -> next != friendnode) {
             temp = temp -> next;
         }
         if (friendlist -> end == friendnode) {
-            prev_temp -> next = NULL;
-            friendlist -> end = prev_temp;
+            temp -> next = NULL;
+            friendlist -> end = temp;
         } else {
-            prev_temp -> next = friendnode -> next;
+            temp -> next = friendnode -> next;
         }
     }
 
