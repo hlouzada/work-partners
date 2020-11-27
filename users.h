@@ -4,27 +4,34 @@
 #include "messages.h"
 #include "friends.h"
 
+// Tipo onde serão guardados os usuários
 typedef struct User {
-    char* name;
-    char* nick;
-    FriendList *friend_list;
-    MessageStack *message_stack;
+        char* name; // Nome do usuário
+        char* nick; // Apelido do usuário
+        FriendList *friend_list; // Lista de amizades
+        MessageStack *message_stack; // Lista de mensagens
 
-    struct User *next;
+        struct User *next;
 } User;
 
-
+// Lista de todos os usuários na rede.
 typedef struct UserList {
-    User *start;
+        User *start;
 } UserList;
 
-
+// Função que gera um novo usuário
 User * new_user(char* name, char* nick);
 
-UserList * new_user_list(User *u);
+// Função que gera uma nova lista de usuários
+UserList * new_user_list( User *user);
 
-void push_user(UserList **head, User *u);
+// Função que adiciona um novo usuário
+void push_user(UserList *list, User *user);
 
-User * get_user_nick(char* nick);
+// Retorna um usuário na lista
+User * get_user(UserList *list, char* nick);
+
+// Função que apaga toda a lista
+void free_user_list(UserList *list);
 
 #endif
