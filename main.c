@@ -9,13 +9,18 @@
 
 // Função que recebe uma lista de usuários e libera a memória uutilizada por ela
 // Se deletando, junto com suas sub-listas.
-void reset_system(UserList *list){
-        User *temp = list->start;
+void reset_system(UserList **list){
+        User *temp = (*list)->start;
         while (temp != NULL) {
                 // Apagar mensagens
-                free_message_stack(temp->message_stack);
+                if (temp->message_stack != NULL) {
+                        free_message_stack(&(temp->message_stack));
+                }
                 // Apagar amizades
-                delete_friendlist(temp->friend_list);
+                if (temp->friend_list != NULL) {
+                        delete_friendlist(&(temp->friend_list));
+                }
+
                 temp = temp->next;
         }
         // Apagar usuários
@@ -332,8 +337,7 @@ int main() {
                         scanf("%c", &choice);
 
                         if (choice == 'Y') {
-                                reset_system(users);
-                                //users = NULL;
+                                reset_system(&users);
                         }
 
                         menu();
@@ -345,8 +349,7 @@ int main() {
                         scanf("%c", &choice);
                         if (choice == 'Y') {
                                 if (users != NULL) {
-                                        reset_system(users);
-                                        users = NULL;
+                                        reset_system(&users);
                                 }
                                 printf("Até a próxima!\n");
                                 break;

@@ -30,7 +30,7 @@ typedef struct FriendList {
 void add_friend_request(User *from, User *to);
 
 // Função que deleta lista toda
-void delete_friendlist(FriendList *friendlist);
+void delete_friendlist(FriendList **friendlist);
 
 // Função para confirmar pedido de amizade
 void accept_friend(Friend *friendnode);

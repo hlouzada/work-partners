@@ -41,7 +41,8 @@ MessageStack * push_message(MessageStack *stack, Message *message){
     // Checar se a pilha existe:
     if (stack == NULL) {
         // Se não existe criar nova pilha
-        stack = new_message_stack(message);
+        MessageStack *newstack = new_message_stack(message);
+        stack = newstack;
     } else{
         message->next = stack->start;
         stack->start = message;
@@ -70,17 +71,20 @@ void get_messages(MessageStack *stack){
 }
 
 // Apagar a pilha de mensagens
-void free_message_stack(MessageStack *stack){
+void free_message_stack(MessageStack **stack){
   // Criar um ponteiro temporário para guardar o próximo
   Message *temp = NULL;
   // Enquanto o começo não for nulo
-  while (stack->start != NULL){
+  while ((*stack)->start != NULL){
     // Colocar o próximo valor da pilha no temporário
-    temp = (stack->start)->next;
+    temp = ((*stack)->start)->next;
     // Apagar o valor do topo
-    free(stack->start->text); // Apagar a mensagem salva
-    free(stack->start);
+    free((*stack)->start->text); // Apagar a mensagem salva
+    (*stack)->start->text = NULL;
+    free((*stack)->start);
+    (*stack)->start = NULL;
     // Colocar o valor do temporário como topo.
-    stack->start = temp;
+    (*stack)->start = temp;
   }
+  free(*stack);
 }

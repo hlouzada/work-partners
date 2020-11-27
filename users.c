@@ -72,10 +72,10 @@ User * get_user(UserList *list, char* nick){
 
 // Função que deleta um único usuário
 // Favor não esquecer de deletar a lista de amigos e de mensagens do usuário primeiro
-void delete_user(UserList *list, char* nick){
+void delete_user(UserList **list, char* nick){
   // Encontrar o usuário que vem antes do que queremos deletar
   // Para isso criamos um temporário para iterar:
-  User *temp = list->start;
+  User *temp = (*list)->start;
   // Enquanto o apelido do temporário não for igual ao dado
   // Ou até chegarmos no final da lista
   while ((strcmp(temp->nick, nick) != 0) && (temp->next != NULL)){
@@ -92,25 +92,31 @@ void delete_user(UserList *list, char* nick){
     User *user = previous->next;
     previous->next = user->next;
     free(user->name); // Apaga o ponteiro do nome
+    user->name = NULL;
     free(user->nick); // Apaga o pointeiro do nick
+    user->nick = NULL;
     free(user);
   }
 }
 
 // Função que apaga toda a lista
 // Favor não esquecer de apagar as listas de amizades e mensagens dos usuários primeiro
-void free_user_list(UserList *list){
+void free_user_list(UserList **list){
   // Criar um ponteiro temporário para guardar o próximo
   User *temp = NULL;
   // Enquanto o começo não for nulo
-  while (list->start != NULL){
+  while ((*list)->start != NULL){
     // Colocar o próximo valor da pilha no temporário
-    temp = (list->start)->next;
+    temp = (*list)->start->next;
     // Apagar o valor do topo
-    free(list->start->name);
-    free(list->start->nick);
-    free(list->start);
+    free((*list)->start->name);
+    (*list)->start->name = NULL;
+    free((*list)->start->nick);
+    (*list)->start->nick = NULL;
+    free((*list)->start);
     // Colocar o valor do temporário como topo.
-    list->start = temp;
+    (*list)->start = temp;
   }
+  free(*list);
+  *list = NULL;
 }

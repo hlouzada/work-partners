@@ -24,6 +24,6 @@ void send_message(User *from, User *to, char* text);
 void get_messages(MessageStack *stack);
 
 // Apaga a pilha de mensagens
-void free_message_stack(MessageStack *stack);
+void free_message_stack(MessageStack **stack);
 
 #endif

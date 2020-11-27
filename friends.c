@@ -106,40 +106,42 @@ void accept_friend(Friend *friendnode) {
 // Verifica se o nódulo de amigos está no começo meio ou fim
 // Para deletar de forma que a lista não quebre
 // E libera a memória ocupada pelo nódulo do amigo
-FriendList * remove_friend_from_list(FriendList *friendlist, Friend *friendnode) {
-        if (friendlist->start == friendnode) {
-                friendlist->start = friendnode->next;
+void remove_friend_from_list(FriendList **friendlist, Friend **friendnode) {
+        if ((*friendlist)->start == *friendnode) {
+                (*friendlist)->start = (*friendnode)->next;
         } else {
-                Friend *temp = friendlist->start;
-                while (temp->next != friendnode) {
+                Friend *temp = (*friendlist)->start;
+                while (temp->next != *friendnode) {
                         temp = temp->next;
                 }
-                if (friendlist->end == friendnode) {
+                if ((*friendlist)->end == *friendnode) {
                         temp->next = NULL;
-                        friendlist->end = temp;
+                        (*friendlist)->end = temp;
                 } else {
-                        temp->next = friendnode->next;
+                        temp->next = (*friendnode)->next;
                 }
         }
 
-        free(friendnode);
-
-        return friendlist;
+        free(*friendnode);
+        *friendnode = NULL;
 }
 
 
 // Remove todos os amigos da lista e se auto deleta
 // Liberando sua memória ocupada.
-void delete_friendlist(FriendList *friendlist) {
-        Friend *temp = friendlist->start;
-        while (friendlist->start != NULL) {
+void delete_friendlist(FriendList **friendlist) {
+        Friend *temp = (*friendlist)->start;
+        while ((*friendlist)->start != NULL) {
                 temp = temp->next;
-                if (friendlist->start->friend_request) {
-                        free(friendlist->start->friend_request);
+                if ((*friendlist)->start->friend_request != NULL) {
+                        free((*friendlist)->start->friend_request);
+                        (*friendlist)->start->friend_request = NULL;
                 }
-                free(friendlist->start);
-                friendlist->start = temp;
+                free((*friendlist)->start);
+                (*friendlist)->start = temp;
         }
+        free(*friendlist);
+        *friendlist = NULL;
 }
 
 
@@ -160,8 +162,6 @@ Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request)
 void decline_friend(User *user, Friend *friendnode) {
         FriendRequest *request = friendnode->friend_request;
 
-        user->friend_list = remove_friend_from_list(user->friend_list, friendnode);
-
         User *other_user = NULL;
         if (user == request->from) {
                 other_user = request->to;
@@ -171,10 +171,14 @@ void decline_friend(User *user, Friend *friendnode) {
 
         Friend * other_friendnode = get_friend_from_request(other_user->friend_list, request);
 
-        // Removendo do outro usuário
-        other_user->friend_list = remove_friend_from_list(other_user->friend_list, other_friendnode);
-
         free(request);
+        request = NULL;
+
+        remove_friend_from_list(&(user->friend_list), &friendnode);
+
+        // Removendo do outro usuário
+        remove_friend_from_list(&(other_user->friend_list), &other_friendnode);
+
 }
 
 
