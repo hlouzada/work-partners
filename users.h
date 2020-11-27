@@ -31,6 +31,9 @@ void push_user(UserList *list, User *user);
 // Retorna um usuário na lista
 User * get_user(UserList *list, char* nick);
 
+// Função que apaga um usuário
+void delete_user(UserList *list, char* nick);
+
 // Função que apaga toda a lista
 void free_user_list(UserList *list);
 
