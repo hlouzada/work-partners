@@ -206,16 +206,16 @@ int main() {
                                 } else {
                                         // Checar se são amigos primeiro
                                         temp_friend = user->friend_list->start;
-                                        while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
-                                                if(is_friend(temp_friend)) {
-                                                        printf("Escreva sua mensagem! >:DD");
-                                                        char *mensagem = read_string();
-                                                        send_message(user, user_amigo, mensagem);
-                                                        printf("\n");
-                                                } else { printf("Você soh pode enviar mensagens para seus amigos.\n");}
+                                        while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
                                                 temp_friend = temp_friend->next;
                                         }
-
+                                        if ((temp_friend == NULL) || (!is_friend(temp_friend))) {
+                                                printf("Você soh pode enviar mensagens para seus amigos.\n");
+                                        } else {
+                                                printf("Escreva sua mensagem! >:DD\n");
+                                                char *mensagem = read_string();
+                                                send_message(user, user_amigo, mensagem);
+                                        }
                                 }
                         }
                 }
