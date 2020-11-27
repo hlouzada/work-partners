@@ -17,11 +17,8 @@ typedef struct MessageStack {
         Message *start;
 } MessageStack;
 
-// Cria uma nova mensagem
-Message * new_message(User *from, User *to, char* text);
-
-// Adiciona uma nova mensagem no topo da pilha
-void push_message(MessageStack *stack, Message *message);
+// Envia uma nova mensagem
+void send_message(User *from, User *to, char* text);
 
 // Retorna e imprime as mensagens da pilha
 void get_messages(MessageStack *stack);
