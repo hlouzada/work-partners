@@ -126,7 +126,7 @@ int main() {
                         // Cria um ponteiro temporário para iterar pelos usuários
                         temp = users->start;
                         while (temp != NULL) {
-                                printf("%s com os parceiros: ", temp->nick);
+                                printf("%s (%s) com os parceiros: ", temp->name, temp->nick);
                                 if( temp->friend_list != NULL){
                                   temp_friend = temp->friend_list->start;
                                   while(temp_friend != NULL) {
@@ -281,11 +281,7 @@ int main() {
                                         }
                                         menu();
                                 }
-                        }        
-                                }
-                        }          
-                }
-                        }          
+                        }
                 }
 
                 else if ((ordem == 7) && (users != NULL)) { //sugerir amigo
