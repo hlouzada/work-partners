@@ -178,27 +178,31 @@ int main() {
                                 printf("\nEsses são seus pedidos de Parceiro: \n");
                                 printf("Digite A para Aceitar, N para Negar ou D pra Deixar pra mais tarde. \n");
 
-                                // Função que lista os pedidos de amigo
-                                temp_friend = user->friend_list->start;
-                                while(temp_friend != NULL) {
-                                        // Se eles já não forem amigos
-                                        if ((!is_friend(temp_friend)) && (strcmp(user->nick, temp_friend->friend_request->from->nick) != 0)) {
-                                                printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
-                                                scanf("%c", &resposta);
-                                                if(resposta == 'A') { // Aceita o pedido
-                                                        accept_friend(temp_friend);
-                                                        printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
-                                                }
-                                                else if(resposta == 'N') { //nega o pedido
-                                                        decline_friend(user, temp_friend);
-                                                        printf("\nVoce recusou a Parceria de %s.\n", temp_friend->friend_request->from->nick);
-                                                }
+                                if (user->friend_list == NULL) {
+                                        printf("\nVocê não tem pedidos de parceria\n");
+                                } else {
+                                        // Função que lista os pedidos de amigo
+                                        temp_friend = user->friend_list->start;
+                                        while(temp_friend != NULL) {
+                                                // Se eles já não forem amigos
+                                                if ((!is_friend(temp_friend)) && (strcmp(user->nick, temp_friend->friend_request->from->nick) != 0)) {
+                                                        printf("%s quer ser seu parceiro, você aceita?", temp_friend->friend_request->from->nick);
+                                                        scanf("%c", &resposta);
+                                                        if(resposta == 'A') { // Aceita o pedido
+                                                                accept_friend(temp_friend);
+                                                                printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
+                                                        }
+                                                        else if(resposta == 'N') { //nega o pedido
+                                                                decline_friend(user, temp_friend);
+                                                                printf("\nVoce recusou a Parceria de %s.\n", temp_friend->friend_request->from->nick);
+                                                        }
 
+                                                }
+                                                temp_friend = temp_friend->next;
                                         }
-                                        temp_friend = temp_friend->next;
-                                }
-                                if(temp_friend == NULL){
-                                    printf("\nVoce nao tem pedidos de parceria\n");
+                                        if(temp_friend == NULL){
+                                            printf("\nVoce nao tem pedidos de parceria\n");
+                                        }
                                 }
                         }
                         menu();
@@ -214,24 +218,28 @@ int main() {
                         if (user == NULL) {
                                 printf("\nEsse usuario não existe. Tente novamente!\n");
                         } else{
-                                printf("\nPara quem gostaria de enviar sua mensagem? >:?\n");
-                                char* amigo = read_string();
-                                user_amigo = get_user(users, amigo);
-                                free(amigo);
-                                if (user_amigo == NULL) {
-                                        printf("Esse usuario não existe. Tente novamente!\n");
+                                if (user->friend_list == NULL) {
+                                        printf("\nVocê não tem parceiros!\n");
                                 } else {
-                                        // Checar se são amigos primeiro
-                                        temp_friend = user->friend_list->start;
-                                        while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
-                                                temp_friend = temp_friend->next;
-                                        }
-                                        if ((temp_friend == NULL) || (!is_friend(temp_friend))) {
-                                                printf("Você soh pode enviar mensagens para seus amigos.\n");
+                                        printf("\nPara quem gostaria de enviar sua mensagem? >:?\n");
+                                        char* amigo = read_string();
+                                        user_amigo = get_user(users, amigo);
+                                        free(amigo);
+                                        if (user_amigo == NULL) {
+                                                printf("Esse usuario não existe. Tente novamente!\n");
                                         } else {
-                                                printf("Escreva sua mensagem! >:DD\n");
-                                                char *mensagem = read_string();
-                                                send_message(user, user_amigo, mensagem);
+                                                // Checar se são amigos primeiro
+                                                temp_friend = user->friend_list->start;
+                                                while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
+                                                        temp_friend = temp_friend->next;
+                                                }
+                                                if ((temp_friend == NULL) || (!is_friend(temp_friend))) {
+                                                        printf("Você soh pode enviar mensagens para seus parceiros.\n");
+                                                } else {
+                                                        printf("Escreva sua mensagem! >:DD\n");
+                                                        char *mensagem = read_string();
+                                                        send_message(user, user_amigo, mensagem);
+                                                }
                                         }
                                 }
                         }
@@ -250,7 +258,11 @@ int main() {
                         } else{
                                 printf("Aqui estao suas mensagens\n");
                                 //funcao que mostra mensagens
-                                get_messages(user->message_stack);
+                                if(user->message_stack != NULL) {
+                                        get_messages(user->message_stack);
+                                } else {
+                                        printf("\nNão há nenhuma mensagem\n");
+                                }
                         }
                         menu();
                 }
