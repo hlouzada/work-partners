@@ -28,12 +28,20 @@ int main(int argc, char *argv[]) {
         char* nome; // nome do usuário
         char* amigo; // nome do amigo
         char* mensagem; // texto da mensagem
+        User *user = NULL;
+        User *user_amigo = NULL;
+        User *temp = NULL;
+        Friend *temp_friend = NULL
 
         // Interface de usuário
         // Lista-se as possíveis atividades e recebe ordem do usuário.
         int ordem;
 
         while(ordem != 1337) {
+                user = NULL;
+                user_amigo = NULL;
+                temp = NULL;
+                temp_friend = NULL;
                 printf("Olá! >:DD você pode realizar as seguintes ações:");
                 printf("1- Cadastrar usuário. \n");
                 printf("2- Listar usuários. \n");
@@ -66,14 +74,14 @@ int main(int argc, char *argv[]) {
 
 
                         if (users == NULL) {
-                                User *user = new_user(nome, nick);
+                                user = new_user(nome, nick);
                                 users = new_user_list(user);
                         } else {
                                 while( get_user(users, nick ) != NULL) {
                                         printf("Esse apelido já está sendo usado, escolha outro apelido:\n");
                                         scanf("%s", nick);
                                 }
-                                User *user = new_user(nome, nick);
+                                user = new_user(nome, nick);
                                 users = push_user(users, user);
                         }
 
@@ -83,10 +91,10 @@ int main(int argc, char *argv[]) {
                 else if(ordem == 2) { //lista usuarios
                         printf("Aqui está a lista de todos os usuários e seus parceiros: \n");
                         // Cria um ponteiro temporário para iterar pelos usuários
-                        User *temp = users->start;
+                        temp = users->start;
                         while (temp != NULL) {
                                 printf("%s com os parceiros: ", temp->nick);
-                                Friend *temp_friend = temp->friend_list->start;
+                                temp_friend = temp->friend_list->start;
                                 while(temp_friend != NULL) {
                                         if(is_friend(temp_friend)) {
                                                 printf("%s, ", temp_friend->friend_request->from->nick);
@@ -104,14 +112,14 @@ int main(int argc, char *argv[]) {
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
-                        User *user = get_user(users, nick);
+                        user = get_user(users, nick);
                         if (user == NULL) {
                                 printf("Esse usuário não existe.");
                         } else {
                                 printf("Quem você gostaria de adicionar, %c ? >:? Coloque o apelido. \n", nick)
                                 scanf("%s", amigo);
                                 //funcao que checa se o amigo existe e salva o nome
-                                User *user_amigo = get_user(users, amigo);
+                                user_amigo = get_user(users, amigo);
                                 if (user_amigo == NULL) {
                                         printf("Esse usuário não existe.");
                                 } else {
@@ -124,7 +132,7 @@ int main(int argc, char *argv[]) {
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
-                        User *user = get_user(users, nick);
+                        user = get_user(users, nick);
                         if (user == NULL) {
                                 printf("Esse usuário não existe.");
                         } else {
@@ -134,7 +142,7 @@ int main(int argc, char *argv[]) {
                                 printf("Digite A para Aceitar, N para Negar ou D pra Deixar pra mais tarde. \n");
 
                                 // Função que lista os pedidos de amigo
-                                Friend *temp_friend = user->friend_list->start;
+                                temp_friend = user->friend_list->start;
                                 while(temp_friend != NULL) {
                                         // Se eles já não forem amigos
                                         if (!is_friend(temp_friend)) {
@@ -158,26 +166,26 @@ int main(int argc, char *argv[]) {
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
-                        User *user = get_user(users, nick);
+                        user = get_user(users, nick);
                         if (user == NULL) {
                                 printf("Esse usuário não existe.");
                         } else{
                                 printf("Para quem gostaria de enviar sua mensagem? >:?");
                                 scanf("%s", amigo)
-                                User *user_amigo = get_user(users, amigo);
+                                user_amigo = get_user(users, amigo);
                                 if (user_amigo == NULL) {
                                         printf("Esse usuário não existe.");
                                 } else {
                                         // Checar se são amigos primeiro
-                                        Friend *temp = user->friend_list->start;
-                                        while(((temp->friend_request->from != user_amigo) || (temp->friend_request->to != user_amigo)) || (temp != NULL) ) {
-                                                if(is_friend(temp)) {
+                                        temp_friend = user->friend_list->start;
+                                        while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
+                                                if(is_friend(temp_friend)) {
                                                         printf("Escreva sua mensagem! >:DD");
                                                         scanf("%s", mensagem);
                                                         send_message(nick, amigo, mensagem);
                                                         printf("\n");
                                                 } else { printf("Você só pode enviar mensagens para seus amigos.\n");}
-                                                temp = temp->next;
+                                                temp_friend = temp_friend->next;
                                         }
 
                                 }
@@ -188,7 +196,7 @@ int main(int argc, char *argv[]) {
                         printf("Entre com o seu apelido: \n");
                         scanf("%s", nick);
                         //funcao que checa e salva o nome se ja foi cadastrado
-                        User *user = get_user(users, nick);
+                        user = get_user(users, nick);
                         if (user == NULL) {
                                 printf("Esse usuário não existe.");
                         } else{
