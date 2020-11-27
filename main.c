@@ -174,13 +174,18 @@ int main(int argc, char *argv[]) {
                                                 scanf("%c", &resposta);
                                                 if(resposta == 'A') { // Aceita o pedido
                                                         accept_friend(temp_friend);
+                                                        printf("Voce e %s agora sao Parceiros!". temp_friend->friend_request->from->nick);
                                                 }
                                                 else if(resposta == 'N') { //nega o pedido
                                                         decline_friend(user, temp_friend);
+                                                        printf("Voce recusou a Parceria de %s.", temp_friend->friend_request->from->nick);
                                                 }
                                                 printf("\n");
                                         }
                                         temp_friend = temp_friend->next;
+                                }
+                                if(temp_friend == NULL){
+                                    printf("Voce nao tem pedidos de amigos >:[ ");
                                 }
                         }
 
