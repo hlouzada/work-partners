@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
                                                 scanf("%c", &resposta);
                                                 if(resposta == 'A') { // Aceita o pedido
                                                         accept_friend(temp_friend);
-                                                        printf("Voce e %s agora sao Parceiros!". temp_friend->friend_request->from->nick);
+                                                        printf("Voce e %s agora sao Parceiros!", temp_friend->friend_request->from->nick);
                                                 }
                                                 else if(resposta == 'N') { //nega o pedido
                                                         decline_friend(user, temp_friend);
