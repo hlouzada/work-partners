@@ -41,14 +41,14 @@ MessageStack * new_message_stack(Message *start){
 // Adiciona uma nova mensagem à lista
 void push_message(MessageStack *stack, Message *message){
   // Checar se a pilha existe:
-  if (stack== NULL){
+  if (stack == NULL){
     // Se não existe criar nova pilha
     stack = new_message_stack(message);
   }
-
-  message->next = stack->start;
-  stack->start = message;
-
+  else{
+    message->next = stack->start;
+    stack->start = message;
+  }
 }
 
 // Retorna e imprime as mensagens da pilha

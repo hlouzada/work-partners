@@ -13,30 +13,36 @@ User * new_user(char*name, char* nick){
     user->name = name;
     user->nick = nick;
     user->next = NULL;
-
-    // Será que precisa declarar a friendlist e a messagestack como null
-    //ou deixa para serem inicializadas quando forem usadas?
+    user->friend_list = NULL;
+    user->message_stack = NULL;
 
     return user;
   }
 }
 
+// Função que cria nova lista
+UserList * new_user_list(User *user){
+  // Aloca o espaço na memória para a nova lista
+  UserList *list = malloc(sizeof(UserList));
+  // Verifica se a alocação funcionou
+  if(!list){
+    exit(1);
+  }
+  else{
+    list->start = user;
+    return list;
+  }
+}
 
-/*UserNode * new_user_list(User *u) {
-        UserNode *head = NULL;
-        head = (UserNode *) malloc(sizeof(UserNode));
-        head->user = u;
-        head->next = NULL;
-
-        return head;
-}*/
-
-
-/*void push_user(UserNode **head, User *u) {
-        UserNode * new_usernode;
-        new_usernode = (UserNode *) malloc(sizeof(UserNode));
-
-        new_usernode->user = u;
-        new_usernode->next = *head;
-        *head = new_usernode;
-}*/
+// Função que adiciona um novo usuário
+void push_user(UserList *list, User *user){
+  // Checar se a lista existe
+  if (list == NULL){
+    // Se não existe criar nova lista
+    list = new_user_list(user);
+  }
+  else{
+  user->next = list->start;
+  list->start = user;
+  }
+}

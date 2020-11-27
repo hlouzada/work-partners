@@ -26,7 +26,7 @@ User * new_user(char* name, char* nick);
 UserList * new_user_list( User *user);
 
 // Função que adiciona um novo usuário
-void add_user(UserList *list, User *user);
+void push_user(UserList *list, User *user);
 
 // Retorna um usuário na lista
 User * get_user(UserList *list, char* nick);
