@@ -42,6 +42,13 @@ char * read_string() {
     return str;
 }
 
+// Função que aguarda o usuário confirmar que quer ir ao menu antes de mudar de tela
+// Recebe nulo e devolve nulo.
+void menu(){
+  printf("\nPara voltar para o menu aperte enter.\n");
+  getchar();
+}
+
 int main() {
 
         UserList *users = NULL; // lista de usuários
@@ -59,7 +66,7 @@ int main() {
                 user_amigo = NULL;
                 temp = NULL;
                 temp_friend = NULL;
-                printf("\nOla! >:DD voce pode realizar as seguintes acoes:\n");
+                printf("\nOla! Voce pode realizar as seguintes acoes:\n");
                 printf("1- Cadastrar usuario.\n");
                 printf("2- Listar usuarios.\n");
                 printf("3- Enviar pedido de parceria.\n");
@@ -79,7 +86,7 @@ int main() {
                 // checar se o usuário colocou um valor válido
                 if ((ordem > 9) || (ordem < 1)) {
                         if ((ordem!= 1337) || (ordem%1 != 0)) {
-                                printf("Isso nao eh um comando valido >:C Favor inserir um valor valido.\n");
+                                printf("Isso nao e um comando valido Favor inserir um valor valido.\n");
                         }
                 }
 
@@ -97,7 +104,7 @@ int main() {
                         } else {
                                 while( get_user(users, nick ) != NULL) {
                                         free(nick); // apaga o ponteiro com o mesmo
-                                        printf("Esse apelido ja esta sendo usado >:/ Escolha outro apelido:\n");
+                                        printf("Esse apelido ja esta sendo usado. Escolha outro apelido:\n");
                                         nick = read_string();
                                 }
                                 user = new_user(nome, nick);
@@ -105,6 +112,7 @@ int main() {
                         }
 
                         printf("\nSeja bem-vindo, %s >:DD esse sera o nome que deve usar nos comandos. \n", nick);
+                        menu();
                 }
 
                 else if(ordem == 2) { //lista usuarios
@@ -128,6 +136,7 @@ int main() {
                                 printf("\n");
                                 temp = temp->next;
                         }
+                        menu();
                 }
 
                 else if(ordem == 3) { //pedido amigo
@@ -137,33 +146,34 @@ int main() {
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuario não existe. Tente novamente!");
+                                printf("\nEsse usuario não existe. Tente novamente!\n");
                         } else {
-                                printf("Quem você gostaria de adicionar, %s ? >:? Coloque o apelido. \n", nick);
+                                printf("\nQuem você gostaria de adicionar, %s ? Coloque o apelido. \n", nick);
                                 char *amigo = read_string();
                                 //funcao que checa se o amigo existe e salva o nome
                                 user_amigo = get_user(users, amigo);
                                 free(amigo);
                                 if (user_amigo == NULL) {
-                                        printf("Esse usuário não existe. Tente novamente!");
+                                        printf("\nEsse usuário não existe. Tente novamente!\n");
                                 } else {
                                         add_friend_request(user, user_amigo);
                                 }
                         }
+                        menu();
                 }
 
                 else if(ordem == 4) { //avaliar pedido amigo
-                        printf("Entre com o seu apelido: \n");
+                        printf("\nEntre com o seu apelido: \n");
                         char *nick = read_string();
                         //funcao que checa e salva o nome se ja foi cadastrado
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuário não existe.");
+                                printf("\nEsse usuário não existe.\n");
                         } else {
 
                                 char resposta;
-                                printf("Esses são seus pedidos de Parceiro: \n");
+                                printf("\nEsses são seus pedidos de Parceiro: \n");
                                 printf("Digite A para Aceitar, N para Negar ou D pra Deixar pra mais tarde. \n");
 
                                 // Função que lista os pedidos de amigo
@@ -189,7 +199,7 @@ int main() {
                                     printf("\nVoce nao tem pedidos de parceria\n");
                                 }
                         }
-
+                        menu();
                 }
 
                 else if(ordem == 5) { //enviar mensagem
@@ -200,29 +210,31 @@ int main() {
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuario não existe. Tente novamente!");
+                                printf("\nEsse usuario não existe. Tente novamente!\n");
                         } else{
-                                printf("Para quem gostaria de enviar sua mensagem? >:?");
+                                printf("\nPara quem gostaria de enviar sua mensagem? >:?\n");
                                 char* amigo = read_string();
                                 user_amigo = get_user(users, amigo);
                                 free(amigo);
                                 if (user_amigo == NULL) {
-                                        printf("Esse usuario não existe. Tente novamente!");
+                                        printf("Esse usuario não existe. Tente novamente!\n");
                                 } else {
                                         // Checar se são amigos primeiro
                                         temp_friend = user->friend_list->start;
                                         while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
                                                 if(is_friend(temp_friend)) {
-                                                        printf("Escreva sua mensagem! >:DD");
+                                                        printf("Escreva sua mensagem!\n");
                                                         char *mensagem = read_string();
                                                         send_message(user, user_amigo, mensagem);
                                                         printf("\n");
-                                                } else { printf("Você soh pode enviar mensagens para seus amigos.\n");}
+                                                } else { printf("Você so pode enviar mensagens para seus amigos.\n");}
                                                 temp_friend = temp_friend->next;
                                         }
 
                                 }
                         }
+                        menu();
+
                 }
 
                 else if(ordem == 6) { //ler mensagem
@@ -232,16 +244,20 @@ int main() {
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuario não existe. Tente novamente!");
+                                printf("Esse usuario não existe. Tente novamente!\n");
                         } else{
-                                printf("Aqui estao suas mensagens >:DD");
+                                printf("Aqui estao suas mensagens\n");
                                 //funcao que mostra mensagens
                                 get_messages(user->message_stack);
                         }
+                        menu();
                 }
 
                 else if(ordem == 7) { //sugerir amigo
                         printf("Entre com o seu nome: \n");
+
+                        menu();
+
                 }
 
                 else if(ordem == 8) { //desfazer amigo
@@ -251,13 +267,13 @@ int main() {
                         user = get_user(users, nick);
                         free(nick);
                         if (user == NULL) {
-                                printf("Esse usuário não existe.");
+                                printf("Esse usuário não existe.\n");
                         } else{
                             char *amigo = read_string();
                             user_amigo = get_user(users, amigo);
                             free(amigo);
                             if (user_amigo == NULL) {
-                                    printf("Esse usuário não existe.");
+                                    printf("Esse usuário não existe.\n");
                             } else {
                                     // Checar se são amigos primeiro
                                     temp_friend = user->friend_list->start;
@@ -270,8 +286,9 @@ int main() {
 
                             }
                             //funcao que exclui amigo
-                            printf("Sua Parceria foi desfeita com sucesso!");
+                            printf("Sua Parceria foi desfeita com sucesso!\n");
                         }
+                        menu();
 
                 }
 
@@ -281,6 +298,8 @@ int main() {
                         scanf("%c", &choice);
 
                         if (choice == 'Y') {reset_system(users);}
+
+                        menu();
 
                 }
                 else if(ordem == 1337) { //Encerra sessao
@@ -294,9 +313,13 @@ int main() {
                                 free(temp);
                                 free(temp_friend);
                                 free(users);
-                                printf("Até a próxima! >:DD");
+                                printf("Até a próxima!\n");
                                 break;
                         }
+                        else {
+                          ordem = 0;
+                          menu();
+                         }
 
                 }
         }
