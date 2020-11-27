@@ -51,11 +51,11 @@ int main(int argc, char *argv[]) {
             scanf("%s", nick); //funcao pra ler
 
 
-            if (!users){
+            if (users == NULL){
               User *user = new_user(nome, nick);
               users = new_user_list(user);
             } else {
-              while( get_user(users, nick ) == NULL){
+              while( get_user(users, nick ) != NULL){
                 printf("Esse apelido já está sendo usado, escolha outro apelido:\n");
                 scanf("%s", nick);
               }
@@ -87,17 +87,26 @@ int main(int argc, char *argv[]) {
           }
 
         else if(ordem == 3){ //pedido amigo
-            char* nick;
+            char* nick; // precisamos declarar tantas vezes a mesma variável?
             char* amigo;
 
             printf("Entre com o seu apelido: \n");
             scanf("%s", nick);
            //funcao que checa e salva o nome se ja foi cadastrado
-
-            printf("Quem voce gostaria de adicionar, %c ? >:? Coloque o apelido. \n", nick)
-            scanf("%", amigo)
-            () //funcao que checa se o amigo existe e salva o nome
-
+           User *user = get_user(users, nick);
+           if (user == NULL){
+             printf("Esse usuário não existe.");
+           } else {
+             printf("Quem você gostaria de adicionar, %c ? >:? Coloque o apelido. \n", nick)
+             scanf("%s", amigo);
+             //funcao que checa se o amigo existe e salva o nome
+             User *user_amigo = get_user(users, amigo);
+             if (user_amigo == NULL){
+               printf("Esse usuário não existe.");
+             } else {
+               add_friend_request(user, user_amigo);
+             }
+           }
         }
 
         else if(ordem == 4){ //avaliar pedido amigo
