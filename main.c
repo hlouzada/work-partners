@@ -169,25 +169,9 @@ int main() {
                                                 free(amigo);
                                                 if (user_amigo == NULL) {
                                                         printf("\nEsse usuário não existe. Tente novamente!\n");
-                                                } else if (user->friend_list == NULL) {
-                                                        add_friend_request(user, user_amigo);
                                                 } else {
-                                                        temp_friend = user->friend_list->start;
-                                                        while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
-                                                                temp_friend = temp_friend->next;
-                                                        }
-                                                        if (temp_friend == NULL) {
-                                                                if(is_friend(temp_friend)){
-                                                                        printf("Voces ja sao amigos.\n");
-                                                                } else { printf("Esse pedido de parceiros ja existe.\n"); }
-                                                        } else {
-                                                                add_friend_request(user, user_amigo);
-                                                        }
-
+                                                        add_friend_request(user, user_amigo);
                                                 }
-
-
-
                                         }
                                 }
                                 free(nick);
