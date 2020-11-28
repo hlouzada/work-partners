@@ -130,15 +130,16 @@ void remove_friend_from_list(FriendList **friendlist, Friend **friendnode) {
 // Remove todos os amigos da lista e se auto deleta
 // Liberando sua memória ocupada.
 void delete_friendlist(FriendList **friendlist) {
-        Friend *temp = (*friendlist)->start;
-        while ((*friendlist)->start != NULL) {
-                temp = temp->next;
-                if ((*friendlist)->start->friend_request != NULL) {
-                        free((*friendlist)->start->friend_request);
-                        (*friendlist)->start->friend_request = NULL;
+        Friend *head = (*friendlist)->start;
+        Friend *temp;
+        while (head != NULL) {
+                temp = head;
+                head = head->next;
+                if (temp->friend_request != NULL) {
+                        free(temp->friend_request);
+                        temp->friend_request = NULL;
                 }
-                free((*friendlist)->start);
-                (*friendlist)->start = temp;
+                free(temp);
         }
         free(*friendlist);
         *friendlist = NULL;
@@ -186,6 +187,12 @@ void decline_friend(User *user, Friend *friendnode) {
 bool is_friend(Friend *friendnode) {
         return friendnode->friend_request->isfriend;
 }
+
+
+//bool user_friends(User *user1, User *user2) {
+//        while
+//}
+
 
 // VErifica se tem amigos em comum
 bool friends_in_common(FriendList *friendlist1, FriendList *friendlist2) {

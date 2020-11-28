@@ -103,19 +103,19 @@ void delete_user(UserList **list, char* nick){
 // Favor não esquecer de apagar as listas de amizades e mensagens dos usuários primeiro
 void free_user_list(UserList **list){
   // Criar um ponteiro temporário para guardar o próximo
-  User *temp = NULL;
+  User *head = (*list)->start;
+  User *temp;
   // Enquanto o começo não for nulo
-  while ((*list)->start != NULL){
+  while (head != NULL){
     // Colocar o próximo valor da pilha no temporário
-    temp = (*list)->start->next;
+    temp = head;
+    head = head->next;
     // Apagar o valor do topo
-    free((*list)->start->name);
-    (*list)->start->name = NULL;
-    free((*list)->start->nick);
-    (*list)->start->nick = NULL;
-    free((*list)->start);
-    // Colocar o valor do temporário como topo.
-    (*list)->start = temp;
+    free(temp->name);
+    temp->name = NULL;
+    free(temp->nick);
+    temp->nick = NULL;
+    free(temp);
   }
   free(*list);
   *list = NULL;
