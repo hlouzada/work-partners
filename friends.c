@@ -206,7 +206,7 @@ bool friends_in_common(FriendList *friendlist1, FriendList *friendlist2) {
                                 (friend1->friend_request->to == friend2->friend_request->to)||
                                 (friend1->friend_request->to == friend2->friend_request->from)||
                                 (friend1->friend_request->from == friend2->friend_request->to)
-                        ) {
+                                ) {
                                 return true;
                         }
                         friend2 = friend2->next;
