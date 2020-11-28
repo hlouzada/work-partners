@@ -64,7 +64,7 @@ FriendList * add_friend_to_list(FriendList *friendlist, Friend *newfriend) {
                 FriendList* newfriendlist = new_friendlist(newfriend);
                 friendlist = newfriendlist;
         } else {
-                friendlist->start->next = newfriend;
+                friendlist->end->next = newfriend;
                 friendlist->end = newfriend;
         }
 
