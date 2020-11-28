@@ -186,3 +186,25 @@ void decline_friend(User *user, Friend *friendnode) {
 bool is_friend(Friend *friendnode) {
         return friendnode->friend_request->isfriend;
 }
+
+// VErifica se tem amigos em comum
+bool friends_in_common(FriendList *friendlist1, FriendList *friendlist2) {
+        Friend *friend1 = friendlist1->start;
+        Friend *friend2 = friendlist2->start;
+
+        while (friend1 != NULL) {
+                while (friend2 != NULL) {
+                        if (
+                                (friend1->friend_request->from == friend2->friend_request->from)||
+                                (friend1->friend_request->to == friend2->friend_request->to)||
+                                (friend1->friend_request->to == friend2->friend_request->from)||
+                                (friend1->friend_request->from == friend2->friend_request->to)
+                        ) {
+                                return true;
+                        }
+                        friend2 = friend2->next;
+                }
+                friend1 = friend1->next;
+        }
+        return false;
+}
