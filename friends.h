@@ -8,22 +8,22 @@ typedef struct User User;
 // Estrutura onde ficarão os pedidos de amizade entre dois usuários
 // Essa estrutura é compartilhada entre quem recebeu e quem enviou o pedido
 typedef struct FriendRequest {
-    User *from; // usuário que enviou a mensagem
-    User *to; // usuário que recebe a mensagem
-    bool isfriend; // se a pedido de amizade foi aceito
+        User *from; // usuário que enviou a mensagem
+        User *to; // usuário que recebe a mensagem
+        bool isfriend; // se a pedido de amizade foi aceito
 } FriendRequest;
 
 // Estrutura que aponta para os pedidos recebidos
 typedef struct Friend
 {
-    FriendRequest *friend_request;
-    struct Friend *next;
+        FriendRequest *friend_request;
+        struct Friend *next;
 } Friend;
 
 // Lista de pedidos recebidos
 typedef struct FriendList {
-    Friend *start;
-    Friend *end;
+        Friend *start;
+        Friend *end;
 } FriendList;
 
 // Função que cria novo pedido de amizade
