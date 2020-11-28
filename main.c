@@ -264,7 +264,7 @@ int main() {
                                                         free(amigo);
                                                         if (user_amigo == NULL) {
                                                                 printf("Esse usuario nao existe. Tente novamente!\n");
-                                                        } else {
+                                                        } else if (user->friend_list != NULL){
                                                                 // Checar se são amigos primeiro
                                                                 temp_friend = user->friend_list->start;
                                                                 while ((temp_friend -> friend_request -> to != user_amigo) && (temp_friend -> friend_request -> from != user_amigo) && (temp_friend != NULL)) {
@@ -277,6 +277,8 @@ int main() {
                                                                         char *mensagem = read_string();
                                                                         send_message(user, user_amigo, mensagem);
                                                                 }
+                                                        } else {
+                                                          printf("Voce nao tem amigos\n");
                                                         }
                                                 }
                                         }
@@ -330,7 +332,7 @@ int main() {
                                         free(amigo);
                                         if (user_amigo == NULL) {
                                                 printf("Esse usuário não existe.\n");
-                                        } else {
+                                        } else if (user->friend_list != NULL){
                                                 // Checar se são amigos primeiro
                                                 temp_friend = user->friend_list->start;
                                                 while(((temp_friend->friend_request->from != user_amigo) || (temp_friend->friend_request->to != user_amigo)) || (temp_friend != NULL) ) {
@@ -340,6 +342,8 @@ int main() {
                                                         temp_friend = temp_friend->next;
                                                 }
 
+                                        } else{
+                                          printf("Voce nao tem amigos\n");
                                         }
                                         //funcao que exclui amigo
                                         printf("Sua Parceria foi desfeita com sucesso!\n");
