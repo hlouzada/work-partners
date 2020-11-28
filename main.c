@@ -290,7 +290,35 @@ int main() {
                 }
 
                 else if ((ordem == 7) && (users != NULL)) { //sugerir amigo
-                        printf("Entre com o seu nome: \n");
+                  printf("Entre com o seu apelido: \n");
+                  char *nick = read_string();
+                  if (nick != NULL) {
+                          //funcao que checa e salva o nome se ja foi cadastrado
+                          user = get_user(users, nick);
+                          free(nick);
+                          if (user == NULL) {
+                                  printf("Esse usuario nao existe. Tente novamente!\n");
+                          } else {
+                            temp = users->start;
+                            // vemos quais usuarios ainda não são amigos
+                            while(temp != NULL){
+                              // check para ver se não estamos no usuário
+                              if(strcmp(temp->nick, nick) != 0){
+                                temp_friend = user->friend_list->start;
+                                while(((temp_friend->friend_request->from != temp) || (temp_friend->friend_request->to != temp)) || (temp_friend != NULL) ){
+                                  temp_friend = temp_friend->next;
+                                }
+                                if (temp_friend == NULL){
+                                  // temp is not a friend
+                                  // check to see if there are friends in common
+
+                                }
+                              }
+                              temp = temp->next;
+
+                            }
+                          }
+                        }
 
                         menu();
 
