@@ -162,19 +162,19 @@ Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request)
 // Removendo o nódulo do amigo dos dois usuários
 // E removendo o pedido compartilhado pelos dois.
 void decline_friend(User *user, Friend *friendnode) {
-        FriendRequest *request = friendnode->friend_request;
+        FriendRequest **request = &(friendnode->friend_request);
 
         User *other_user = NULL;
-        if (user == request->from) {
-                other_user = request->to;
+        if (user == (*request)->from) {
+                other_user = (*request)->to;
         } else {
-                other_user = request->from;
+                other_user = (*request)->from;
         }
 
-        Friend * other_friendnode = get_friend_from_request(other_user->friend_list, request);
+        Friend * other_friendnode = get_friend_from_request(other_user->friend_list, *request);
 
-        free(request);
-        request = NULL;
+        free(*request);
+        *request = NULL;
 
         remove_friend_from_list(&(user->friend_list), &friendnode);
 
@@ -190,26 +190,18 @@ bool is_friend(Friend *friendnode) {
 }
 
 
-bool sent_request(User *user1, User *user2, bool isfriend) {
-        if ((user1->friend_list == NULL) || (user2->friend_list == NULL)) {
-                return false;
+Friend * get_friend(FriendList *friendlist, User *user) {
+        if (friendlist == NULL) {
+                return NULL;
         }
-        Friend* temp_friend = user1->friend_list->start;
+        Friend* temp_friend = friendlist->start;
         while (temp_friend != NULL) {
-                if ((temp_friend->friend_request->to == user2) || (temp_friend->friend_request->from == user2)) {
+                if ((temp_friend->friend_request->to == user) || (temp_friend->friend_request->from == user)) {
                         break;
                 }
                 temp_friend = temp_friend->next;
         }
-        if (temp_friend == NULL) {
-                return false;
-        } else {
-                if (isfriend) {
-                        return is_friend(temp_friend);
-                } else {
-                        return true;
-                }
-        }
+        return temp_friend;
 }
 
 

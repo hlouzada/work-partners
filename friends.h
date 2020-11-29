@@ -41,8 +41,8 @@ void decline_friend(User *user, Friend *friendnode);
 // Função que verifica se ainda são amigos
 bool is_friend(Friend *friendnode);
 
-// Função que verifica se foi enviado pedido de amisade
-bool sent_request(User *user1, User *user2, bool isfriend);
+// Função que retorna o node Friend de uma friendlist com um usuário
+Friend * get_friend(FriendList *friendlist, User *user);
 
 // Função que vai checkar se tem amigos em commum
 bool friends_in_common(FriendList *friendlist1, FriendList *friendlist2);
