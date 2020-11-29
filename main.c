@@ -254,11 +254,11 @@ int main() {
                                                                 printf("Esse usuario nao existe. Tente novamente!\n");
                                                         } else{
                                                                 if (sent_request(user,user_amigo, true)) {//verificar se foi enviado pedido de amisade (true = verificar se o pedido foi aceito)
-                                                                        printf("Voce soh pode enviar mensagens para seus parceiros.\n");
-                                                                } else {
                                                                         printf("Escreva sua mensagem!\n");
                                                                         char *mensagem = read_string();
                                                                         send_message(user, user_amigo, mensagem);
+                                                                } else {
+                                                                        printf("Voce soh pode enviar mensagens para seus parceiros.\n");
                                                                 }
                                                         }
                                                 }
