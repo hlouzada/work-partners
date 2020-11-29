@@ -140,6 +140,7 @@ void delete_friendlist(FriendList **friendlist) {
                         temp->friend_request = NULL;
                 }
                 free(temp);
+                temp = NULL;
         }
         free(*friendlist);
         *friendlist = NULL;
