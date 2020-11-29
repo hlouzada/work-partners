@@ -3,9 +3,8 @@
 
 #include "users.h"
 
-// Função que gera um novo usuário
+// Função que gera um novo usuário alocando espaço para o novo usuário.
 User * new_user(char*name, char* nick){
-        // Aloca espaço para o novo usuário
         User *user = malloc(sizeof(User));
         // Verificar se a alocação funcionou:
         if(!user) {
@@ -36,7 +35,7 @@ UserList * new_user_list(User *user){
         }
 }
 
-// Função que adiciona um novo usuário
+// Função que adiciona um novo usuário na lista de usuários.
 UserList * push_user(UserList *list, User *user){
         // Checar se a lista existe
         if (list == NULL) {
@@ -51,18 +50,14 @@ UserList * push_user(UserList *list, User *user){
         return list;
 }
 
-// Função que retorna um usuário na lista
+// Função que busca e retorna um usuário na lista
 User * get_user(UserList *list, char* nick){
-        // Cria um ponteiro temporário para iterar
         User *temp = list->start;
-        // Enquanto o apelido do temporário não for igual ao dado
-        // Ou até chegarmos no final da lista
+
         while ((strcmp(temp->nick, nick) != 0) && (temp->next != NULL)) {
                 temp = temp->next;
         }
-        // Caso estejamos no último elemento e ainda não seja igua;
         if (strcmp(temp->nick, nick) != 0) {
-                //Se o usuário não existe retornamos um usuário nulo
                 return NULL;
         }
         else{
