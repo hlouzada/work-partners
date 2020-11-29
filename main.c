@@ -61,6 +61,7 @@ int main() {
         User *user_amigo = NULL;
         User *temp = NULL;
         Friend *temp_friend = NULL;
+        char resposta;
 
         // Interface de usuário
         // Lista-se as possíveis atividades e recebe ordem do usuário.
@@ -199,7 +200,7 @@ int main() {
                                         if (user->friend_list == NULL) {
                                                 printf("\nVocê não tem pedidos de parceria\n");
                                         } else {
-                                                char resposta;
+
                                                 // Função que lista os pedidos de amigo
                                                 temp_friend = user->friend_list->start;
                                                 while(temp_friend != NULL) {
@@ -207,6 +208,7 @@ int main() {
                                                         if ((!is_friend(temp_friend)) && (user != temp_friend->friend_request->from)) {
                                                                 printf("%s quer ser seu parceiro, você aceita?\n", temp_friend->friend_request->from->nick);
                                                                 scanf("%c", &resposta);
+                                                                getchar();
                                                                 if(resposta == 'A') { // Aceita o pedido
                                                                         accept_friend(temp_friend);
                                                                         printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
