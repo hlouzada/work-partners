@@ -204,16 +204,16 @@ int main() {
                                                 temp_friend = user->friend_list->start;
                                                 while(temp_friend != NULL) {
                                                         // Se eles já não forem amigos
-                                                        if ((!is_friend(temp_friend)) && (user == temp_friend->friend_request->from)) {
-                                                                printf("%s quer ser seu parceiro, você aceita?\n", temp_friend->friend_request->to->nick);
+                                                        if ((!is_friend(temp_friend)) && (user != temp_friend->friend_request->from)) {
+                                                                printf("%s quer ser seu parceiro, você aceita?\n", temp_friend->friend_request->from->nick);
                                                                 scanf("%c", &resposta);
                                                                 if(resposta == 'A') { // Aceita o pedido
                                                                         accept_friend(temp_friend);
-                                                                        printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->to->nick);
+                                                                        printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
                                                                 }
                                                                 else if(resposta == 'N') { //nega o pedido
                                                                         decline_friend(user, temp_friend);
-                                                                        printf("\nVoce recusou a Parceria de %s.\n", temp_friend->friend_request->to->nick);
+                                                                        printf("\nVoce recusou a Parceria de %s.\n", temp_friend->friend_request->from->nick);
                                                                 }
 
                                                         }
