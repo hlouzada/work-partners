@@ -173,7 +173,7 @@ int main() {
                                                 if (user_amigo == NULL) {
                                                         printf("\nEsse usuarui nao existe. Tente novamente!\n");
                                                 } else {
-                                                        if (sent_request(user,user_amigo, false)) { //verificar se foi enviado pedido de amisade (false = nao verificar se o pedido foi aceito)
+                                                        if (get_friend(user->friend_list,user_amigo) == NULL) { //verificar se foi enviado pedido de amisade (false = nao verificar se o pedido foi aceito)
                                                                 printf("\nVoce ja mandou pedido de amizade para esse usuario!\n");
                                                         } else {
                                                                 add_friend_request(user, user_amigo);
@@ -258,18 +258,20 @@ int main() {
                                                         if (user_amigo == NULL) {
                                                                 printf("Esse usuario nao existe. Tente novamente!\n");
                                                         } else{
-                                                                if (sent_request(user,user_amigo, true)) {//verificar se foi enviado pedido de amisade (true = verificar se o pedido foi aceito)
-                                                                        printf("Escreva sua mensagem!\n");
-                                                                        char *mensagem = read_string();
-                                                                        send_message(user, user_amigo, mensagem);
-                                                                } else {
-                                                                        printf("Voce soh pode enviar mensagens para seus parceiros.\n");
+                                                                temp_friend = get_friend(user->friend_list, user_amigo);
+                                                                if(temp_friend != NULL) {
+                                                                        if (is_friend(temp_friend)) { //verificar se foi enviado pedido de amisade (true = verificar se o pedido foi aceito)
+                                                                                printf("Escreva sua mensagem!\n");
+                                                                                char *mensagem = read_string();
+                                                                                send_message(user, user_amigo, mensagem);
+                                                                        } else {
+                                                                                printf("Voce soh pode enviar mensagens para seus parceiros.\n");
+                                                                        }
                                                                 }
                                                         }
                                                 }
                                         }
-                                }
-                                menu();
+                                }    menu();
                         }
 
                 }
@@ -311,7 +313,7 @@ int main() {
                                         while(temp != NULL) {
                                                 // check para ver se não estamos no usuário
                                                 if(strcmp(temp->nick, nick) != 0) {
-                                                        if (!sent_request(user, temp, false)) {
+                                                        if (get_friend(user, temp)==NULL) {
                                                                 if (friends_in_common(temp->friend_list, user->friend_list)) {
                                                                         printf("\n Sugerimos o parceiro %s.\n", temp->nick);
                                                                 }
@@ -356,12 +358,12 @@ int main() {
                                                                 printf("Você só pode desfazer parceria com seus parceiros.\n");
                                                         }
 
+                                                        }
                                                 }
                                         }
                                 }
-                        }
-                        menu();
-                }
+                        }    menu();
+
 
 
                 else if ((ordem == 9) && (users != NULL)) { //Resetar sistema
