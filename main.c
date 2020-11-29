@@ -109,18 +109,19 @@ int main() {
                                         if (users == NULL) {
                                                 user = new_user(nome, nick);
                                                 users = new_user_list(user);
+                                                printf("\nSeja bem-vindo, %s! Esse sera o nome que deve usar nos comandos. \n", nick);
+                                                menu();
                                         } else {
-                                                while( get_user(users, nick ) != NULL) {
-                                                        free(nick); // apaga o ponteiro com o mesmo
-                                                        printf("Esse apelido ja esta sendo usado. Escolha outro apelido:\n");
-                                                        nick = read_string();
+                                                if (get_user(users, nick ) != NULL) {
+                                                        printf("O apelido %s ja esta sendo usado. Escolha outro apelido:\n", nick);
+                                                        free(nick);
+                                                } else {
+                                                        user = new_user(nome, nick);
+                                                        users = push_user(users, user);
+                                                        printf("\nSeja bem-vindo, %s! Esse sera o nome que deve usar nos comandos. \n", nick);
+                                                        menu();
                                                 }
-                                                user = new_user(nome, nick);
-                                                users = push_user(users, user);
                                         }
-
-                                        printf("\nSeja bem-vindo, %s! Esse sera o nome que deve usar nos comandos. \n", nick);
-                                        menu();
                                 } else {
                                         free(nome);
                                 }
@@ -378,7 +379,7 @@ int main() {
                                         reset_system(&users);
                                 }
                                 printf("Até a próxima!\n");
-                                break;
+                                exit(0);
                         }
                         else {
                                 ordem = 0;
