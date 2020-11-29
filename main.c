@@ -265,8 +265,11 @@ int main() {
                                                                                 char *mensagem = read_string();
                                                                                 send_message(user, user_amigo, mensagem);
                                                                         } else {
-                                                                                printf("Voce soh pode enviar mensagens para seus parceiros.\n");
+                                                                                printf("Voce precisa acitar o pedido de parceria primeiro!\n");
+                                                                                
                                                                         }
+                                                                } else {
+                                                                        printf("Voce so pode enviar mensagens para seus parceiros.\n");
                                                                 }
                                                         }
                                                 }
@@ -313,7 +316,7 @@ int main() {
                                         while(temp != NULL) {
                                                 // check para ver se não estamos no usuário
                                                 if(strcmp(temp->nick, nick) != 0) {
-                                                        if (get_friend(user, temp)==NULL) {
+                                                        if (get_friend(user->friend_list, temp) == NULL) {
                                                                 if (friends_in_common(temp->friend_list, user->friend_list)) {
                                                                         printf("\n Sugerimos o parceiro %s.\n", temp->nick);
                                                                 }
@@ -338,7 +341,7 @@ int main() {
                                 free(nick);
                                 if (user == NULL) {
                                         printf("Esse usuário não existe.\n");
-                                }else if (user->friend_list == NULL) {
+                                } else if (user->friend_list == NULL) {
                                         printf("\nVoce nao tem parceiros!\n");
                                 } else {
                                         printf("Qual parceiro voce gostaria de desfazer a parceria?\n");
@@ -358,11 +361,12 @@ int main() {
                                                                 printf("Você só pode desfazer parceria com seus parceiros.\n");
                                                         }
 
-                                                        }
                                                 }
+                                                menu();
                                         }
                                 }
-                        }    menu();
+                        }
+                }
 
 
 
