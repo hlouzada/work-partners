@@ -189,9 +189,27 @@ bool is_friend(Friend *friendnode) {
 }
 
 
-//bool user_friends(User *user1, User *user2) {
-//        while
-//}
+bool sent_request(User *user1, User *user2, bool isfriend) {
+        if ((user1->friend_list == NULL) || (user2->friend_list == NULL)) {
+                return false;
+        }
+        Friend* temp_friend = user1->friend_list->start;
+        while (temp_friend != NULL) {
+                if ((temp_friend->friend_request->to == user2) || (temp_friend->friend_request->from == user2)) {
+                        break;
+                }
+                temp_friend = temp_friend->next;
+        }
+        if (temp_friend == NULL) {
+                return false;
+        } else {
+                if (isfriend) {
+                        return is_friend(temp_friend);
+                } else {
+                        return true;
+                }
+        }
+}
 
 
 // VErifica se tem amigos em comum
