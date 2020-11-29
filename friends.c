@@ -122,6 +122,11 @@ void remove_friend_from_list(FriendList **friendlist, Friend **friendnode) {
                 }
         }
 
+        if ((*friendlist)->start == NULL) {
+                free(*friendlist);
+                *friendlist = NULL;
+        }
+
         free(*friendnode);
         *friendnode = NULL;
 }
