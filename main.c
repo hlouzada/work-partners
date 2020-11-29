@@ -173,7 +173,7 @@ int main() {
                                                 if (user_amigo == NULL) {
                                                         printf("\nEsse usuarui nao existe. Tente novamente!\n");
                                                 } else {
-                                                        if (get_friend(user->friend_list,user_amigo) == NULL) { //verificar se foi enviado pedido de amisade (false = nao verificar se o pedido foi aceito)
+                                                        if (get_friend(user->friend_list,user_amigo) != NULL) { //verificar se foi enviado pedido de amisade
                                                                 printf("\nVoce ja mandou pedido de amizade para esse usuario!\n");
                                                         } else {
                                                                 add_friend_request(user, user_amigo);
