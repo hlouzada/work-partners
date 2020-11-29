@@ -214,6 +214,10 @@ bool sent_request(User *user1, User *user2, bool isfriend) {
 
 // VErifica se tem amigos em comum
 bool friends_in_common(FriendList *friendlist1, FriendList *friendlist2) {
+        if (friendlist1 == NULL || friendlist2 == NULL) {
+                return false;
+        }
+
         Friend *friend1 = friendlist1->start;
         Friend *friend2 = friendlist2->start;
 
