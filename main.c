@@ -349,7 +349,7 @@ int main() {
                                                 } else if (user->friend_list != NULL) {
                                                         // Checar se são amigos primeiro
                                                         temp_friend = get_friend(user->friend_list, user_amigo);
-                                                        if (temp_friend != NULL) {
+                                                        if ((temp_friend != NULL) && (is_friend(temp_friend))) {
                                                                 decline_friend(user, temp_friend);
                                                                 printf("Sua Parceria foi desfeita com sucesso!\n");
                                                         } else {
