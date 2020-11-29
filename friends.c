@@ -131,16 +131,16 @@ void remove_friend_from_list(FriendList **friendlist, Friend **friendnode) {
 // Liberando sua memória ocupada.
 void delete_friendlist(FriendList **friendlist) {
         Friend *head = (*friendlist)->start;
-        Friend *temp;
+        Friend **temp;
         while (head != NULL) {
-                temp = head;
+                temp = &head;
                 head = head->next;
-                if (temp->friend_request != NULL) {
-                        free(temp->friend_request);
-                        temp->friend_request = NULL;
+                if (&((*temp)->friend_request) != NULL) {
+                        free((*temp)->friend_request);
+                        (*temp)->friend_request = NULL;
                 }
-                free(temp);
-                temp = NULL;
+                free(*temp);
+                *temp = NULL;
         }
         free(*friendlist);
         *friendlist = NULL;
