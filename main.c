@@ -62,7 +62,7 @@ int main() {
         User *temp = NULL;
         Friend *temp_friend = NULL;
         Friend *next_friend = NULL;
-        char resposta;
+        char choice;
 
         // Interface de usuário
         // Lista-se as possíveis atividades e recebe ordem do usuário.
@@ -209,13 +209,13 @@ int main() {
                                                         // Se eles já não forem amigos
                                                         if ((!is_friend(temp_friend)) && (user != temp_friend->friend_request->from)) {
                                                                 printf("%s quer ser seu parceiro, você aceita?\n", temp_friend->friend_request->from->nick);
-                                                                scanf("%c", &resposta);
+                                                                scanf("%c", &choice);
                                                                 getchar();
-                                                                if(resposta == 'A') { // Aceita o pedido
+                                                                if(choice == 'A') { // Aceita o pedido
                                                                         accept_friend(temp_friend);
                                                                         printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
                                                                 }
-                                                                else if(resposta == 'N') { //nega o pedido
+                                                                else if(choice == 'N') { //nega o pedido
                                                                         char *friend_nick = temp_friend->friend_request->from->nick;
                                                                         next_friend = temp_friend->next;
                                                                         decline_friend(user, temp_friend);
@@ -371,7 +371,6 @@ int main() {
 
 
                 else if ((ordem == 9) && (users != NULL)) { //Resetar sistema
-                        char choice;
                         printf("Você está prestes a apagar todos os dados da lista de usuários, tem certeza? (Y/N)\n");
                         scanf("%c", &choice);
 
@@ -383,7 +382,6 @@ int main() {
 
                 }
                 else if (ordem == 1337) { //Encerra sessao
-                        char choice;
                         printf("Deseja encerrar o programa? (Y/N)\n");
                         scanf("%c", &choice);
                         if (choice == 'Y') {
