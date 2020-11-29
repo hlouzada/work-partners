@@ -162,19 +162,19 @@ Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request)
 // Removendo o nódulo do amigo dos dois usuários
 // E removendo o pedido compartilhado pelos dois.
 void decline_friend(User *user, Friend *friendnode) {
-        FriendRequest *request = friendnode->friend_request;
+        FriendRequest **request = &(friendnode->friend_request);
 
         User *other_user = NULL;
-        if (user == request->from) {
-                other_user = request->to;
+        if (user == (*request)->from) {
+                other_user = (*request)->to;
         } else {
-                other_user = request->from;
+                other_user = (*request)->from;
         }
 
-        Friend * other_friendnode = get_friend_from_request(other_user->friend_list, request);
+        Friend * other_friendnode = get_friend_from_request(other_user->friend_list, *request);
 
-        free(request);
-        request = NULL;
+        free(*request);
+        *request = NULL;
 
         remove_friend_from_list(&(user->friend_list), &friendnode);
 
