@@ -61,6 +61,7 @@ int main() {
         User *user_amigo = NULL;
         User *temp = NULL;
         Friend *temp_friend = NULL;
+        Friend *next_friend = NULL;
         char resposta;
 
         // Interface de usuário
@@ -215,8 +216,12 @@ int main() {
                                                                         printf("\nVoce e %s agora sao Parceiros!\n", temp_friend->friend_request->from->nick);
                                                                 }
                                                                 else if(resposta == 'N') { //nega o pedido
+                                                                        char *friend_nick = temp_friend->friend_request->from->nick;
+                                                                        next_friend = temp_friend->next;
                                                                         decline_friend(user, temp_friend);
-                                                                        printf("\nVoce recusou a Parceria de %s.\n", temp_friend->friend_request->from->nick);
+                                                                        printf("\nVoce recusou a Parceria de %s.\n", friend_nick);
+                                                                        temp_friend = next_friend;
+                                                                        continue;
                                                                 }
 
                                                         }
@@ -343,7 +348,8 @@ int main() {
                                                         printf("Esse usuário não existe.\n");
                                                 } else if (user->friend_list != NULL) {
                                                         // Checar se são amigos primeiro
-                                                        if (sent_request(user,user_amigo, true)) {
+                                                        temp_friend = get_friend(user->friend_list, user_amigo);
+                                                        if (temp_friend != NULL) {
                                                                 decline_friend(user, temp_friend);
                                                                 printf("Sua Parceria foi desfeita com sucesso!\n");
                                                         } else {
