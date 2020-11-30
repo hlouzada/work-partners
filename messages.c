@@ -36,7 +36,7 @@ MessageStack * new_message_stack(Message *start){
         }
 }
 
-// Adiciona uma nova mensagem à lista
+// Adiciona uma nova mensagem à lista de mensagens
 MessageStack * push_message(MessageStack *stack, Message *message){
         // Checar se a pilha existe:
         if (stack == NULL) {
@@ -51,7 +51,8 @@ MessageStack * push_message(MessageStack *stack, Message *message){
         return stack;
 }
 
-
+// Cria uma nova mensagem  e adiciona uma mensagem
+// na lista de mensagens do usuário que vai receber
 void send_message(User *from, User *to, char* text) {
         Message *newmessage = new_message(from, to, text);
 

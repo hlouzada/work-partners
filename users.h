@@ -28,7 +28,7 @@ UserList * new_user_list( User *user);
 // Função que adiciona um novo usuário
 UserList * push_user(UserList *list, User *user);
 
-// Retorna um usuário na lista
+// Busca e retorna um usuário na lista
 User * get_user(UserList *list, char* nick);
 
 // Função que apaga um usuário

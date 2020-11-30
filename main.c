@@ -29,7 +29,7 @@ void reset_system(UserList **list, FriendRequest **request_head){
         // Apagar usuários
         free_user_list(list);
 }
-
+// Função que lê uma string
 char * read_string() {
         char *str = NULL;
         int ch;
@@ -270,7 +270,7 @@ int main() {
                                                                                 send_message(user, user_amigo, mensagem);
                                                                         } else {
                                                                                 printf("Voce precisa acitar o pedido de parceria primeiro!\n");
-                                                                                
+
                                                                         }
                                                                 } else {
                                                                         printf("Voce so pode enviar mensagens para seus parceiros.\n");
