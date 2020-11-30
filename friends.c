@@ -144,10 +144,10 @@ void remove_request(FriendRequest **request, FriendRequest **request_head) {
                 *request_head = (*request)->next;
         } else {
                 FriendRequest *temp = *request_head;
-                temp -> next = (*request)->next;
                 while (temp->next != *request) {
                         temp = temp->next;
                 }
+                temp->next = (*request)->next;
         }
         free(*request);
         *request = NULL;
