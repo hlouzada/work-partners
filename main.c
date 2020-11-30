@@ -60,7 +60,7 @@ void menu(){
 int main() {
 
         UserList *users = NULL; // lista de usuários
-        FriendRequest *requests = NULL; // pilha de friend requests somente para ser dada free sem causar "UB"
+        FriendRequest *requests = NULL; // lista de friend requests somente para ser dada free sem causar "UB"
         User *user = NULL;
         User *user_amigo = NULL;
         User *temp = NULL;

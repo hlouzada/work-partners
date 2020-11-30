@@ -11,7 +11,7 @@ typedef struct FriendRequest {
         User *from; // usuário que enviou a mensagem
         User *to; // usuário que recebe a mensagem
         bool isfriend; // se a pedido de amizade foi aceito
-        struct FriendRequest *next;
+        struct FriendRequest *next; // proximo friend request na lista de requests
 } FriendRequest;
 
 // Estrutura que aponta para os pedidos recebidos

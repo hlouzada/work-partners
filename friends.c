@@ -85,7 +85,7 @@ void add_user_request(User *user, FriendRequest *newrequest) {
 
 
 // Cria um novo pedido de amizade entre dois usuários
-// Onde os FriendRequests formam uma pilha simples para ser dada free futuramente
+// Onde os FriendRequests formam uma lista simples para ser dada free futuramente
 // sua implementação é feita para não causar "UB" entre os ponteiros apontada para ela
 void add_friend_request(User *from, User *to, FriendRequest **request_head) {
         FriendRequest* newrequest = new_friendrequest(from, to);
@@ -138,7 +138,7 @@ void remove_friend_from_list(FriendList **friendlist, Friend **friendnode) {
         *friendnode = NULL;
 }
 
-// Remove um friend request da pilha de requests
+// Remove um friend request da lista de requests
 void remove_request(FriendRequest **request, FriendRequest **request_head) {
         if (*request_head == *request) {
                 *request_head = (*request)->next;
