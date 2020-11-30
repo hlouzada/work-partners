@@ -9,7 +9,7 @@
 
 // Função que recebe uma lista de usuários e libera a memória uutilizada por ela
 // Se deletando, junto com suas sub-listas.
-void reset_system(UserList **list){
+void reset_system(UserList **list, FriendRequest **request_head){
         User *temp = (*list)->start;
         while (temp != NULL) {
                 // Apagar mensagens
@@ -23,6 +23,9 @@ void reset_system(UserList **list){
 
                 temp = temp->next;
         }
+        // Apaga todos os friends requests
+        free_requests(request_head);
+
         // Apagar usuários
         free_user_list(list);
 }
@@ -57,6 +60,7 @@ void menu(){
 int main() {
 
         UserList *users = NULL; // lista de usuários
+        FriendRequest *requests = NULL; // pilha de friend requests somente para ser dada free sem causar "UB"
         User *user = NULL;
         User *user_amigo = NULL;
         User *temp = NULL;
@@ -176,7 +180,7 @@ int main() {
                                                         if (get_friend(user->friend_list,user_amigo) != NULL) { //verificar se foi enviado pedido de amisade
                                                                 printf("\nVoce ja mandou pedido de amizade para esse usuario!\n");
                                                         } else {
-                                                                add_friend_request(user, user_amigo);
+                                                                add_friend_request(user, user_amigo, &requests);
                                                         }
                                                 }
                                         }
@@ -218,7 +222,7 @@ int main() {
                                                                 else if(choice == 'N') { //nega o pedido
                                                                         char *friend_nick = temp_friend->friend_request->from->nick;
                                                                         next_friend = temp_friend->next;
-                                                                        decline_friend(user, temp_friend);
+                                                                        decline_friend(user, temp_friend, &requests);
                                                                         printf("\nVoce recusou a Parceria de %s.\n", friend_nick);
                                                                         temp_friend = next_friend;
                                                                         continue;
@@ -355,7 +359,7 @@ int main() {
                                                         // Checar se são amigos primeiro
                                                         temp_friend = get_friend(user->friend_list, user_amigo);
                                                         if ((temp_friend != NULL) && (is_friend(temp_friend))) {
-                                                                decline_friend(user, temp_friend);
+                                                                decline_friend(user, temp_friend, &requests);
                                                                 printf("Sua Parceria foi desfeita com sucesso!\n");
                                                         } else {
                                                                 printf("Você só pode desfazer parceria com seus parceiros.\n");
@@ -375,7 +379,7 @@ int main() {
                         scanf("%c", &choice);
 
                         if (choice == 'Y') {
-                                reset_system(&users);
+                                reset_system(&users, &requests);
                         }
 
                         menu();
@@ -386,7 +390,7 @@ int main() {
                         scanf("%c", &choice);
                         if (choice == 'Y') {
                                 if (users != NULL) {
-                                        reset_system(&users);
+                                        reset_system(&users, &requests);
                                 }
                                 printf("Até a próxima!\n");
                                 exit(0);

@@ -11,6 +11,7 @@ typedef struct FriendRequest {
         User *from; // usuário que enviou a mensagem
         User *to; // usuário que recebe a mensagem
         bool isfriend; // se a pedido de amizade foi aceito
+        struct FriendRequest *next;
 } FriendRequest;
 
 // Estrutura que aponta para os pedidos recebidos
@@ -27,16 +28,19 @@ typedef struct FriendList {
 } FriendList;
 
 // Função que cria novo pedido de amizade
-void add_friend_request(User *from, User *to);
+void add_friend_request(User *from, User *to, FriendRequest **request_head);
 
 // Função que deleta lista toda
 void delete_friendlist(FriendList **friendlist);
+
+// Função que delete todos os friends requests
+void free_requests(FriendRequest **request_head);
 
 // Função para confirmar pedido de amizade
 void accept_friend(Friend *friendnode);
 
 // Função para declinar pedido de amizade
-void decline_friend(User *user, Friend *friendnode);
+void decline_friend(User *user, Friend *friendnode, FriendRequest **request_head);
 
 // Função que verifica se ainda são amigos
 bool is_friend(Friend *friendnode);

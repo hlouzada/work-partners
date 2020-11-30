@@ -20,6 +20,8 @@ FriendRequest * new_friendrequest(User *from, User *to) {
         newrequest->to = to;
         newrequest->isfriend = false;
 
+        newrequest->next = NULL;
+
         return newrequest;
 }
 
@@ -83,8 +85,13 @@ void add_user_request(User *user, FriendRequest *newrequest) {
 
 
 // Cria um novo pedido de amizade entre dois usuários
-void add_friend_request(User *from, User *to) {
+// Onde os FriendRequests formam uma pilha simples para ser dada free futuramente
+// sua implementação é feita para não causar "UB" entre os ponteiros apontada para ela
+void add_friend_request(User *from, User *to, FriendRequest **request_head) {
         FriendRequest* newrequest = new_friendrequest(from, to);
+
+        newrequest->next = *request_head;
+        *request_head = newrequest;
 
         add_user_request(from, newrequest);
 
@@ -131,24 +138,46 @@ void remove_friend_from_list(FriendList **friendlist, Friend **friendnode) {
         *friendnode = NULL;
 }
 
+// Remove um friend request da pilha de requests
+void remove_request(FriendRequest **request, FriendRequest **request_head) {
+        if (*request_head == *request) {
+                *request_head = (*request)->next;
+        } else {
+                FriendRequest *temp = *request_head;
+                temp -> next = (*request)->next;
+                while (temp->next != *request) {
+                        temp = temp->next;
+                }
+        }
+        free(*request);
+        *request = NULL;
+}
+
 
 // Remove todos os amigos da lista e se auto deleta
 // Liberando sua memória ocupada.
 void delete_friendlist(FriendList **friendlist) {
         Friend *head = (*friendlist)->start;
-        Friend **temp;
+        Friend *temp;
         while (head != NULL) {
-                temp = &head;
+                temp = head;
                 head = head->next;
-                if (&((*temp)->friend_request) != NULL) {
-                        free((*temp)->friend_request);
-                        (*temp)->friend_request = NULL;
-                }
-                free(*temp);
-                *temp = NULL;
+                free(temp);
+                temp = NULL;
         }
         free(*friendlist);
         *friendlist = NULL;
+}
+
+// Remove todos os friend request
+void free_requests(FriendRequest **request_head) {
+        FriendRequest *temp;
+        while (*request_head != NULL) {
+                temp = *request_head;
+                *request_head = (*request_head)->next;
+                free(temp);
+                temp = NULL;
+        }
 }
 
 
@@ -166,20 +195,20 @@ Friend * get_friend_from_request(FriendList *friendlist, FriendRequest *request)
 // Recusa o pedido de amizade
 // Removendo o nódulo do amigo dos dois usuários
 // E removendo o pedido compartilhado pelos dois.
-void decline_friend(User *user, Friend *friendnode) {
-        FriendRequest **request = &(friendnode->friend_request);
+void decline_friend(User *user, Friend *friendnode, FriendRequest **request_head) {
+        FriendRequest *request = (friendnode->friend_request);
 
         User *other_user = NULL;
-        if (user == (*request)->from) {
-                other_user = (*request)->to;
+        if (user == request->from) {
+                other_user = request->to;
         } else {
-                other_user = (*request)->from;
+                other_user = request->from;
         }
 
-        Friend * other_friendnode = get_friend_from_request(other_user->friend_list, *request);
+        Friend * other_friendnode = get_friend_from_request(other_user->friend_list, request);
 
-        free(*request);
-        *request = NULL;
+        // removendo o request
+        remove_request(&request, request_head);
 
         remove_friend_from_list(&(user->friend_list), &friendnode);
 
